@@ -5,7 +5,14 @@
 package Views;
 
 import Models.Order;
+import Models.Role;
 import Models.User;
+import Models.UserManager;
+import java.awt.Component;
+import static java.lang.reflect.Array.set;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JButton;
 
 /**
  *
@@ -21,9 +28,45 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard(User user, Order order) {
         initComponents();
-        
+        UserManager uManager = new UserManager();
         loadedBasket = order;
         loadedUser = user;
+        //hides all buttons
+        HideAllButtons();
+        //creates hashmap of roles
+        HashMap<Integer,Role> roles = new HashMap<Integer,Role>();
+        //loops through user role ids
+        for (int i = 0; i < loadedUser.getRoleIds().size(); i++) 
+        {
+           Role role = uManager.LoadRole(loadedUser.getRoleIds().get(i));
+           
+           roles.put(role.getRoleId(), role);
+        }
+        //loops through every role of the user
+        for (Map.Entry<Integer, Role> entry : roles.entrySet()) 
+        {
+            switch (entry.getValue().getRoleName()) {
+                case "Admin":
+                    btnRegisterStaff.setVisible(true);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+
+            
+        }
+    }
+    
+    public void HideAllButtons()
+    {
+        for (Component comp : pnlDashboard.getComponents() ) 
+        {
+            if(comp instanceof JButton)
+            {
+               ((JButton) comp).setVisible(false);
+            }
+            
+        }
     }
 
     /**
@@ -38,6 +81,7 @@ public class Dashboard extends javax.swing.JFrame {
         pnlBanner2 = new javax.swing.JPanel();
         lblDashboard = new javax.swing.JLabel();
         btnBack1 = new javax.swing.JButton();
+        pnlDashboard = new javax.swing.JPanel();
         btnRegisterStaff = new javax.swing.JButton();
         btnViewAllOrders = new javax.swing.JButton();
 
@@ -63,7 +107,7 @@ public class Dashboard extends javax.swing.JFrame {
         pnlBanner2Layout.setHorizontalGroup(
             pnlBanner2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBanner2Layout.createSequentialGroup()
-                .addContainerGap(62, Short.MAX_VALUE)
+                .addContainerGap(215, Short.MAX_VALUE)
                 .addComponent(lblDashboard)
                 .addGap(74, 74, 74)
                 .addComponent(btnBack1)
@@ -93,6 +137,27 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
+        pnlDashboard.setLayout(pnlDashboardLayout);
+        pnlDashboardLayout.setHorizontalGroup(
+            pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDashboardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRegisterStaff)
+                    .addComponent(btnViewAllOrders))
+                .addContainerGap(183, Short.MAX_VALUE))
+        );
+        pnlDashboardLayout.setVerticalGroup(
+            pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDashboardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnRegisterStaff)
+                .addGap(18, 18, 18)
+                .addComponent(btnViewAllOrders)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,20 +168,16 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnViewAllOrders)
-                    .addComponent(btnRegisterStaff))
-                .addGap(132, 132, 132))
+                .addComponent(pnlDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(126, 126, 126))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlBanner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(btnRegisterStaff)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnViewAllOrders)
-                .addGap(0, 130, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(pnlDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 107, Short.MAX_VALUE))
         );
 
         pack();
@@ -185,5 +246,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnViewAllOrders;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JPanel pnlBanner2;
+    private javax.swing.JPanel pnlDashboard;
     // End of variables declaration//GEN-END:variables
 }

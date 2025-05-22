@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -114,22 +115,53 @@ public class UserManager
         }
     }
     
+    public List<Integer> LoadRoleIds(String username)
+    {
+        List<Integer> ids = new ArrayList<>();
+        
+        
+        try
+        {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            
+            Statement statement = conn.createStatement();
+            
+            //gets every User entry in the database
+            ResultSet rs = statement.executeQuery("SELECT * FROM UserRoles WHERE UserName = '" + username + "'");
+            
+            //loops through each User entry
+            while(rs.next())
+            {
+                int id = rs.getInt("Roleid");
+
+                ids.add(id);
+
+            }
+            
+            return ids;
+            
+            
+            
+            
+            
+            
+        }
+        catch(Exception ex){
+            //outputs error message
+            System.out.println("Error loading roleIds: " + ex.getMessage());
+        }
+        finally
+        {
+            return ids;
+        }
+    }
+    
     public Role LoadRole(int id)
     {
         return loadRoles().get(id);
     }
-    
-    public HashMap<Integer,Role> LoadRoles(String Username)
-    {
-        HashMap<Integer,Role> roles = new HashMap<Integer,Role>();
-        
-        for (Map.Entry<Integer, Role> entry : loadRoles().entrySet()) {
-            for (int i = 0; i < entry.getValue().getUserIds(); i++) {
-                
-            }
-            
-        }
-    }
+   
     
     public HashMap<String, User> LoadUsers()
     {
@@ -143,7 +175,7 @@ public class UserManager
             Statement statement = conn.createStatement();
             
             //gets every User entry in the database
-            ResultSet rs = statement.executeQuery("SELECT * FROM Users LEFT JOIN UserRoles ON UserRoles.Username = Users.UserName");
+            ResultSet rs = statement.executeQuery("SELECT * FROM Users");
             
             //loops through each User entry
             while(rs.next())
@@ -160,27 +192,13 @@ public class UserManager
                 int numberOfFailedLoginAttempts = rs.getInt("NumberOfFailedLoginAttempts");
                 Date dateOfAccountLock = ( rs.getDate("DateOfAccountLock") == null ? null : rs.getDate("DateOfAccountLock"));
                 Date dateRegistered = rs.getDate("DateRegistered");
-                
-                int roleId = rs.getInt("RoleId");
+               
                 User user;
-                if(!loadedUsers.containsKey(username))
-                {
-                     //public User(String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds)
-                     user = new User(username, password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, new ArrayList<>());
+                //public User(String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds)
+                     user = new User(username, password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, LoadRoleIds(username));
                      
-                     //HashMap.put(KEY,VALUE) -> adds to HashMap
-                    loadedUsers.put(username,user);
-                
-                }
-                else
-                {
-                    //gets existing user
-                    user = loadedUsers.get(username);
-                    //adds role to user
-                    user.addRoleId(roleId);
-                    //replaces user entry in hashmap
-                    loadedUsers.replace(username, user);
-                }
+               //HashMap.put(KEY,VALUE) -> adds to HashMap
+                loadedUsers.put(username,user);
 
                 
                 

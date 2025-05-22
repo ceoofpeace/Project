@@ -33,7 +33,7 @@ public class Reports extends javax.swing.JFrame {
      */
     public Reports(User user, Order order) {
         initComponents();
-        GenerateReport();
+//        GenerateReport();
     }
 
     /**
@@ -350,38 +350,38 @@ public class Reports extends javax.swing.JFrame {
         });
     }
     
-    public void GenerateReport()
-    {
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date startDate = formatter.parse(txtStartDate.getText());
-        Date endDate = formatter.parse(txtEndDate.getText());
-        OrderManager oManager = new OrderManager();
-        
-        switch (tbdPnlReports.getSelectedIndex()) {
-            case 4:
-                
-                HashMap<Integer,Order> orders = oManager.LoadOrders();
-                
-                for (Map.Entry<Integer, Order> entry : orders.entrySet())
-                {
-                    if(entry.getValue().getOrderDate().before(startDate) || entry.getValue().getOrderDate().after(endDate))
-                    {
-                        orders.remove(entry.getValue().getOrderId());
-                    }
-                }
-                double[] days = new double[orders.size() - 1];
-                double[] prices = new double[orders.size() - 1];
-                
-                
-                 for (Map.Entry<Integer, Order> entry : orders.entrySet())
-                {
-                    
-                }
-                break;
-            default:
-                throw new AssertionError();
-        }
-    }
+//    public void GenerateReport()
+//    {
+//        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//        Date startDate = formatter.parse(txtStartDate.getText());
+//        Date endDate = formatter.parse(txtEndDate.getText());
+//        OrderManager oManager = new OrderManager();
+//        
+//        switch (tbdPnlReports.getSelectedIndex()) {
+//            case 4:
+//                
+//                HashMap<Integer,Order> orders = oManager.LoadOrders();
+//                
+//                for (Map.Entry<Integer, Order> entry : orders.entrySet())
+//                {
+//                    if(entry.getValue().getOrderDate().before(startDate) || entry.getValue().getOrderDate().after(endDate))
+//                    {
+//                        orders.remove(entry.getValue().getOrderId());
+//                    }
+//                }
+//                double[] days = new double[orders.size() - 1];
+//                double[] prices = new double[orders.size() - 1];
+//                
+//                
+//                 for (Map.Entry<Integer, Order> entry : orders.entrySet())
+//                {
+//                    
+//                }
+//                break;
+//            default:
+//                throw new AssertionError();
+//        }
+//    }
     
     public void generateLineGraph(String xName, String yName, double[] dates, double[] prices) throws IOException
     {

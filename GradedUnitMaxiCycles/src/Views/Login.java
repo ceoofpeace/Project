@@ -14,6 +14,14 @@ import Models.Order;
 import Models.User;
 import Models.UserManager;
 import java.util.HashMap;
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 
@@ -139,12 +147,63 @@ public class Login extends javax.swing.JFrame {
         String email = JOptionPane.showInputDialog("Please Enter Your Email");
         
         
+        // TODO add your handling code here:
+        String FromEmail = "joshuabh2021@gmail.com";//studyviral2@gmail.com
+        String FromEmailPassword = "Joshua230805";//You email Password from you want to send email
+        String Subjects = "password reset code";
+        Random random = new Random();
+        int code = random.nextInt(10000);
+        
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
+        
+        Session session = Session.getDefaultInstance(properties,new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(FromEmail, FromEmailPassword);
+            }
+        });
+        
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(FromEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject(Subjects);
+            
+            
+            message.setText("Your password reset code is: " + code);
+            Transport.send(message);
+            
+            
+            
+            
+        }catch(Exception ex){
+            System.out.println("Failed To Send Email"+ex);
+        }
+        
+        try{
+            
+            int inputCode = Integer.parseInt(  JOptionPane.showInputDialog("a code has been emailed to you, Please Enter Code"));
+            
+            if(inputCode == code)
+            {
+                String newPassword = JOptionPane.showInputDialog("Please Enter Your New Password");
+            }
+            
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, "Code Failed Please Try Again");
+            System.out.println(""+ex);
+        }
+        
         
         
         
         
         
     }//GEN-LAST:event_btnForgotPasswordActionPerformed
+
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
