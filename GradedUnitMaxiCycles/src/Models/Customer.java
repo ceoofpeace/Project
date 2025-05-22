@@ -59,16 +59,16 @@ public class Customer extends User
     
     //constructors
 
-    public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds) {
-        super(userName, password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, roleIds);
+    public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) {
+        super(userName, password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, role);
         this.preferredPaymentMethod = preferredPaymentMethod;
         this.paymentDetails = paymentDetails;
         this.preferredDeliveryAddress = preferredDeliveryAddress;
         this.companyName = companyName;
     }
     
-    public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName,  String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds) {
-        super( password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, roleIds);
+    public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName,  String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) {
+        super( password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, role);
         this.preferredPaymentMethod = preferredPaymentMethod;
         this.paymentDetails = paymentDetails;
         this.preferredDeliveryAddress = preferredDeliveryAddress;
@@ -76,7 +76,7 @@ public class Customer extends User
     }
     
     public Customer( String userName,  String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address) {
-        super(userName, password, firstName, surname, emailAddress, phoneNumber, address, 0, null, new Date(), new ArrayList<>());
+        super(userName, password, firstName, surname, emailAddress, phoneNumber, address, 0, null, new Date(), new Role());
         this.preferredPaymentMethod = "";
         this.paymentDetails = "";
         this.preferredDeliveryAddress = new Address();

@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /*
@@ -115,52 +114,29 @@ public class UserManager
         }
     }
     
-    public List<Integer> LoadRoleIds(String username)
-    {
-        List<Integer> ids = new ArrayList<>();
-        
-        
-        try
-        {
-            Class.forName(driver);
-            Connection conn = DriverManager.getConnection(connectionString);
-            
-            Statement statement = conn.createStatement();
-            
-            //gets every User entry in the database
-            ResultSet rs = statement.executeQuery("SELECT * FROM UserRoles WHERE UserName = '" + username + "'");
-            
-            //loops through each User entry
-            while(rs.next())
-            {
-                int id = rs.getInt("Roleid");
-
-                ids.add(id);
-
-            }
-            
-            return ids;
-            
-            
-            
-            
-            
-            
-        }
-        catch(Exception ex){
-            //outputs error message
-            System.out.println("Error loading roleIds: " + ex.getMessage());
-        }
-        finally
-        {
-            return ids;
-        }
-    }
+    
     
     public Role LoadRole(int id)
     {
         return loadRoles().get(id);
     }
+    
+    public Role LoadRoleByName(String name)
+    {
+        HashMap<Integer,Role> roles = loadRoles();
+        
+        for (Map.Entry<Integer, Role> entry : roles.entrySet()) {
+            if(entry.getValue().getRoleName().equals(name))
+            {
+                return entry.getValue();
+            }
+            
+        }
+        
+        return null;
+    }
+    
+    
    
     
     public HashMap<String, User> LoadUsers()
@@ -192,10 +168,11 @@ public class UserManager
                 int numberOfFailedLoginAttempts = rs.getInt("NumberOfFailedLoginAttempts");
                 Date dateOfAccountLock = ( rs.getDate("DateOfAccountLock") == null ? null : rs.getDate("DateOfAccountLock"));
                 Date dateRegistered = rs.getDate("DateRegistered");
+                int roleId = rs.getInt("RoleId");
                
                 User user;
                 //public User(String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds)
-                     user = new User(username, password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, LoadRoleIds(username));
+                     user = new User(username, password, firstName, surname, emailAddress, phoneNumber, address, numberOfFailedLoginAttempts, dateOfAccountLock, dateRegistered, LoadRole(roleId));
                      
                //HashMap.put(KEY,VALUE) -> adds to HashMap
                 loadedUsers.put(username,user);
@@ -223,8 +200,8 @@ public class UserManager
                 String companyName = (rs.getString("CompanyName") == null ? null : rs.getString("CompanyName"));
                 
                 User user =  loadedUsers.get(userName);
-                //public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds)
-                Customer customer = new Customer(preferredPaymentMethod, paymentDetails, preferredDeliveryAddress, companyName, userName, user.getPassword(), user.getFirstName(), user.getSurname(), user.getEmailAddress(), user.getPhoneNumber(), user.getAddress(), user.getNumberOfFailedLoginAttempts(), user.getDateOfAccountLock(), user.getDateRegistered(), user.getRoleIds());
+                //public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role)
+                Customer customer = new Customer(preferredPaymentMethod, paymentDetails, preferredDeliveryAddress, companyName, userName, user.getPassword(), user.getFirstName(), user.getSurname(), user.getEmailAddress(), user.getPhoneNumber(), user.getAddress(), user.getNumberOfFailedLoginAttempts(), user.getDateOfAccountLock(), user.getDateRegistered(), user.getRole());
                 
                 loadedUsers.replace(userName, customer);
                 
@@ -242,8 +219,8 @@ public class UserManager
                 Date dateEmployed = rs.getDate("DateEmployed");
                 
                 User user =  loadedUsers.get(userName);
-                //public Staff(Date dateEmployed, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds)
-                Staff staff = new Staff(dateEmployed, userName, user.getPassword(), user.getFirstName(), user.getSurname(), user.getEmailAddress(), user.getPhoneNumber(), user.getAddress(), user.getNumberOfFailedLoginAttempts(), user.getDateOfAccountLock(),user.getDateRegistered(), user.getRoleIds());
+                //public Staff(Date dateEmployed, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role)
+                Staff staff = new Staff(dateEmployed, userName, user.getPassword(), user.getFirstName(), user.getSurname(), user.getEmailAddress(), user.getPhoneNumber(), user.getAddress(), user.getNumberOfFailedLoginAttempts(), user.getDateOfAccountLock(),user.getDateRegistered(),  user.getRole());
                 
                 loadedUsers.replace(userName, staff);
                 

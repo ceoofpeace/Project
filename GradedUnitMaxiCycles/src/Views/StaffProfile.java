@@ -394,7 +394,7 @@ public class StaffProfile extends javax.swing.JFrame {
                
                //creates new customer
                //public Staff(Date dateEmployed, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds))
-               Staff staff = new Staff(loadedStaff.getDateEmployed(),userName, password, firstName, surname,emailAddress,phoneNumber, address, loadedStaff.getNumberOfFailedLoginAttempts(),loadedStaff.getDateOfAccountLock(), loadedStaff.getDateRegistered(), loadedStaff.getRoleIds()   );
+               Staff staff = new Staff(loadedStaff.getDateEmployed(),userName, password, firstName, surname,emailAddress,phoneNumber, address, loadedStaff.getNumberOfFailedLoginAttempts(),loadedStaff.getDateOfAccountLock(), loadedStaff.getDateRegistered(), loadedStaff.getRole()  );
                
 
                

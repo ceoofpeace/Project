@@ -148,7 +148,7 @@ public class Login extends javax.swing.JFrame {
         
         
         // TODO add your handling code here:
-        String FromEmail = "joshuabh2021@gmail.com";//studyviral2@gmail.com
+        String fromEmail = "joshuabh2021@googlemail.com";//studyviral2@gmail.com
         String FromEmailPassword = "Joshua230805";//You email Password from you want to send email
         String Subjects = "password reset code";
         Random random = new Random();
@@ -160,15 +160,15 @@ public class Login extends javax.swing.JFrame {
         properties.put("mail.smtp.host","smtp.gmail.com");
         properties.put("mail.smtp.port","587");
         
-        Session session = Session.getDefaultInstance(properties,new javax.mail.Authenticator() {
+        Session session = Session.getInstance(properties,new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication(){
-                return new PasswordAuthentication(FromEmail, FromEmailPassword);
+                return new PasswordAuthentication(fromEmail, FromEmailPassword);
             }
         });
         
         try{
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(FromEmail));
+            message.setFrom(new InternetAddress(fromEmail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             message.setSubject(Subjects);
             

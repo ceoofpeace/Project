@@ -33,28 +33,13 @@ public class Dashboard extends javax.swing.JFrame {
         loadedUser = user;
         //hides all buttons
         HideAllButtons();
-        //creates hashmap of roles
-        HashMap<Integer,Role> roles = new HashMap<Integer,Role>();
-        //loops through user role ids
-        for (int i = 0; i < loadedUser.getRoleIds().size(); i++) 
-        {
-           Role role = uManager.LoadRole(loadedUser.getRoleIds().get(i));
-           
-           roles.put(role.getRoleId(), role);
-        }
-        //loops through every role of the user
-        for (Map.Entry<Integer, Role> entry : roles.entrySet()) 
-        {
-            switch (entry.getValue().getRoleName()) {
-                case "Admin":
-                    btnRegisterStaff.setVisible(true);
-                    break;
-                default:
-                    throw new AssertionError();
-            }
-
-            
-        }
+        switch (user.getRole().getRoleName()) {
+            case "Admin":
+                btnRegisterStaff.setVisible(true);
+                break;
+            default:
+                throw new AssertionError();
+       }
     }
     
     public void HideAllButtons()

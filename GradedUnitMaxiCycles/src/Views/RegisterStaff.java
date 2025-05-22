@@ -398,7 +398,7 @@ public class RegisterStaff extends javax.swing.JFrame {
                
                //creates new customer
                // public Staff(Date dateEmployed, String username, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds) {
-               Staff staff = new Staff(dateEmployed,userName, password, firstName, surname,emailAddress,phoneNumber, address, 0 , null, new Date(), new ArrayList<>() );
+               Staff staff = new Staff(dateEmployed,userName, password, firstName, surname,emailAddress,phoneNumber, address, 0 , null, new Date(), uManager.LoadRoleByName(cmboRoles.getSelectedItem().toString()));
                
                //creates hashmap of addresses
                //loads address from database into hashmap

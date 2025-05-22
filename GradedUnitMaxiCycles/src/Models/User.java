@@ -28,7 +28,7 @@ public class User
     private int numberOfFailedLoginAttempts;
     private Date dateOfAccountLock; 
     private Date dateRegistered;
-    private List<Integer> roleIds;
+    private Role role;
     
     //getters
 
@@ -72,10 +72,10 @@ public class User
         return dateRegistered;
     }
 
-    public List<Integer> getRoleIds() {
-        return roleIds;
+    public Role getRole() {
+        return role;
     }
-    
+
     
     
     //setters
@@ -120,13 +120,14 @@ public class User
         this.dateRegistered = dateRegistered;
     }
 
-    public void setRoleIds(List<Integer> roleIds) {
-        this.roleIds = roleIds;
+    public void setRole(Role role) {
+        this.role = role;
     }
+    
     
     //constructors
 
-    public User(String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds) {
+    public User(String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -137,10 +138,10 @@ public class User
         this.numberOfFailedLoginAttempts = numberOfFailedLoginAttempts;
         this.dateOfAccountLock = dateOfAccountLock;
         this.dateRegistered = dateRegistered;
-        this.roleIds = roleIds;
+        this.role = role;
     }
     
-    public User( String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds) {
+    public User( String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) {
         this.userName = "";
         this.password = password;
         this.firstName = firstName;
@@ -151,7 +152,7 @@ public class User
         this.numberOfFailedLoginAttempts = numberOfFailedLoginAttempts;
         this.dateOfAccountLock = dateOfAccountLock;
         this.dateRegistered = dateRegistered;
-        this.roleIds = roleIds;
+        this.role = role;
     }
     
     public User() {
@@ -165,15 +166,10 @@ public class User
         this.numberOfFailedLoginAttempts = 0;
         this.dateOfAccountLock = null;
         this.dateRegistered = new Date();
-        this.roleIds = new ArrayList();
+        this.role = role;
     }
     
-    //adders
     
-    public void addRoleId(int id)
-    {
-        roleIds.add(id);
-    }
     
     
     
