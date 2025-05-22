@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/Register.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/HomePage.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/Login.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/UserManager.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Magazine.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/MagazineCategory.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Delivery.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Comment.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/MagazineManager.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Customer.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Product.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/Products.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/ProductManager.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Offer.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/OrderLine.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/StockOrder.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/ProductTag.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/ProductDetails.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Order.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Payment.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Invoice.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/Basket.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/Checkout.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/PaymentPage.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/DeliveryInfo.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Role.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/User.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Staff.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/OrderDeliveryInformation.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/CourierCompany.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/Address.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Models/OrderManager.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/CustomerProfile.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/CustomerOrders.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/Dashboard.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/StaffProfile.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/RegisterStaff.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/AllOrders.java</file>
+            <file>file:/C:/Users/lucal/Downloads/GradedUnitMaxiCycles/GradedUnitMaxiCycles/src/Views/Reports.java</file>
+        </group>
+    </open-files>
+</project-private>
