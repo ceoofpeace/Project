@@ -89,7 +89,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblImage" min="-2" pref="179" max="-2" attributes="0"/>
+              <Component id="lblIcon" min="-2" pref="179" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
@@ -124,7 +124,7 @@
               <Component id="pnlBanner1" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="52" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="lblImage" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
+                  <Component id="lblIcon" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="lblProductName" min="-2" max="-2" attributes="0"/>
@@ -149,7 +149,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblImage">
+    <Component class="javax.swing.JLabel" name="lblIcon">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">

@@ -8,8 +8,15 @@ import Models.Order;
 import Models.OrderLine;
 import Models.Product;
 import Models.User;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -38,6 +45,23 @@ public class ProductDetails extends javax.swing.JFrame {
         lblProductName.setText(product.getName());
         lblStock.setText(product.getQuantity() + " Left In Stock");
         lblProductPrice.setText(String.valueOf(product.getPrice()));
+        
+        try {
+                //gets image file from product
+                File imageFile = new File(product.getImage());
+                //creates biffered image and sets it as the selected file
+                BufferedImage img = ImageIO.read(imageFile);
+                //scales image to label icon
+                Image scaledImg = img.getScaledInstance(lblIcon.getWidth(), lblIcon.getHeight(), Image.SCALE_SMOOTH);
+                
+                //sets label icon to image
+                lblIcon.setIcon(new ImageIcon(scaledImg));
+            } catch (Exception ex) {
+
+                
+                System.out.println("Unable to load product image:" + ex);
+                lblIcon.setBorder(new LineBorder(Color.black));
+            }
     }
 
     /**
@@ -52,7 +76,7 @@ public class ProductDetails extends javax.swing.JFrame {
         pnlBanner = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnViewBasket = new javax.swing.JButton();
-        lblImage = new javax.swing.JLabel();
+        lblIcon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescription = new javax.swing.JTextArea();
         lblProductName = new javax.swing.JLabel();
@@ -104,7 +128,7 @@ public class ProductDetails extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblImage.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txtDescription.setEditable(false);
         txtDescription.setColumns(20);
@@ -187,7 +211,7 @@ public class ProductDetails extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -214,7 +238,7 @@ public class ProductDetails extends javax.swing.JFrame {
                 .addComponent(pnlBanner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(lblProductName)
@@ -365,7 +389,7 @@ public class ProductDetails extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblProductName;
     private javax.swing.JLabel lblProductPrice;
     private javax.swing.JLabel lblQuantity;

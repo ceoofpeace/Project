@@ -250,22 +250,16 @@ public class PaymentPage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Thank You For Your Purchase");
             
             MessageManager mManager = new MessageManager();
-            String email = "Thank you " + loadedUser.getFirstName() + " " + loadedUser.getSurname() + " for your purchase as maxiCycles \n Here Is a summary of your purchase: \n \n ";
+            String email = "Thank you " + loadedUser.getFirstName() + " " + loadedUser.getSurname() + " for your purchase as maxiCycles \n Here Is a summary of your purchase: \n \n";
             
-            if(loadedDelivery.getAddress().getPostCode() != null)
+            if(!loadedDelivery.getAddress().getPostCode().equals(""))
             {
                 email += "DeliveryId: " + loadedDelivery.getDeliveryId() + "\n";
                 email += "DeliveryType: " + loadedDelivery.getType() + "\n";
-                email += "Address: " + loadedDelivery.getAddress().getStreet() + "\n" + loadedDelivery.getAddress().getTown() + "\n" + loadedDelivery.getAddress().getCity()+ "\n" + loadedDelivery.getAddress().getCountry()+ "\n" + loadedDelivery.getAddress().getPostCode();
+                email += "Address: " + loadedDelivery.getAddress().getStreet() + "\n" + loadedDelivery.getAddress().getTown() + "\n" + loadedDelivery.getAddress().getCity()+ "\n" + loadedDelivery.getAddress().getCountry()+ "\n" + loadedDelivery.getAddress().getPostCode() + "\n \n";
             }
             
-            email += "OrderId: " + loadedDelivery.getOrder().getOrderId();
-            
-            email += "order: \n";
-            
-            
-            
-            
+            email += "OrderId: " + loadedDelivery.getOrder().getOrderId() +"\n";
 
             for (Map.Entry<Integer, OrderLine> entry : loadedBasket.getOrderLines().entrySet()) {
                 OrderLine oL = entry.getValue();
