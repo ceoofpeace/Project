@@ -8,6 +8,7 @@ import Models.Order;
 import Models.OrderLine;
 import Models.Product;
 import Models.User;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -282,11 +283,11 @@ public class Basket extends javax.swing.JFrame {
         JFrame frame;
         switch (previousFrame) {
             case "ProductDetails":
-                frame = new ProductDetails(loadedUser, loadedProduct, loadedBasket);
+                frame = new ProductDetails(loadedUser, loadedProduct, loadedBasket, new ArrayList<>(), "");
                 
                 break;
             case "Products":
-                frame = new Products(loadedUser,  loadedBasket);
+                frame = new Products(loadedUser,  loadedBasket, new ArrayList<>(), "");
                 
                 break;
             case "HomePage":

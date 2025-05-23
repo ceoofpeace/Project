@@ -5,13 +5,9 @@
 package Views;
 
 import Models.Order;
-import Models.Role;
 import Models.User;
 import Models.UserManager;
 import java.awt.Component;
-import static java.lang.reflect.Array.set;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.JButton;
 
 /**
@@ -37,6 +33,40 @@ public class Dashboard extends javax.swing.JFrame {
             case "Admin":
                 btnRegisterStaff.setVisible(true);
                 break;
+            case "Sale/Store Manager":
+                btnRegisterStaff.setVisible(true);
+                btnManageUsers.setVisible(true);
+                btnManageHolidayBlocks.setVisible(true);
+                btnViewAllOrders.setVisible(true);
+                btnViewReports.setVisible(true);
+                btnViewInvoices.setVisible(true);
+                btnManageStock.setVisible(true);
+                btnViewStockCategories.setVisible(true);
+                btnViewRefunds.setVisible(true);
+                btnViewCustomerAddressChanges.setVisible(true);
+                break;
+            case "Assistant Manager":
+                btnRegisterStaff.setVisible(true);
+                break;
+            case "Stock Control Manager":
+                btnViewAllOrders.setVisible(true);
+                btnViewStockCategories.setVisible(true);
+                btnViewRefunds.setVisible(true);
+                btnManageStock.setVisible(true);
+                break;
+            case "Warehouse Assistant":
+                btnRegisterStaff.setVisible(true);
+                
+                break;
+            case "Invoice Clerk":
+                btnViewInvoices.setVisible(true);
+                break;
+            case "Sales Assistant":
+                btnViewReports.setVisible(true);
+                btnViewAllOrders.setVisible(true);
+                btnViewCustomerAddressChanges.setVisible(true);
+                break;
+            
             default:
                 throw new AssertionError();
        }
@@ -69,6 +99,14 @@ public class Dashboard extends javax.swing.JFrame {
         pnlDashboard = new javax.swing.JPanel();
         btnRegisterStaff = new javax.swing.JButton();
         btnViewAllOrders = new javax.swing.JButton();
+        btnManageStock = new javax.swing.JButton();
+        btnManageUsers = new javax.swing.JButton();
+        btnManageHolidayBlocks = new javax.swing.JButton();
+        btnViewCustomerAddressChanges = new javax.swing.JButton();
+        btnViewReports = new javax.swing.JButton();
+        btnViewInvoices = new javax.swing.JButton();
+        btnViewStockCategories = new javax.swing.JButton();
+        btnViewRefunds = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,15 +160,79 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        btnManageStock.setText("Manage Stock");
+        btnManageStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageStockActionPerformed(evt);
+            }
+        });
+
+        btnManageUsers.setText("Manage Users");
+        btnManageUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageUsersActionPerformed(evt);
+            }
+        });
+
+        btnManageHolidayBlocks.setText("Manage Holiday Blocks");
+        btnManageHolidayBlocks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageHolidayBlocksActionPerformed(evt);
+            }
+        });
+
+        btnViewCustomerAddressChanges.setText("View Customer Address Changes");
+        btnViewCustomerAddressChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewCustomerAddressChangesActionPerformed(evt);
+            }
+        });
+
+        btnViewReports.setText("Reports");
+        btnViewReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewReportsActionPerformed(evt);
+            }
+        });
+
+        btnViewInvoices.setText("View Invoices");
+        btnViewInvoices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewInvoicesActionPerformed(evt);
+            }
+        });
+
+        btnViewStockCategories.setText("View Stock Categories");
+        btnViewStockCategories.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewStockCategoriesActionPerformed(evt);
+            }
+        });
+
+        btnViewRefunds.setText("View Refunds");
+        btnViewRefunds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewRefundsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
         pnlDashboard.setLayout(pnlDashboardLayout);
         pnlDashboardLayout.setHorizontalGroup(
             pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDashboardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(btnViewCustomerAddressChanges)
+                    .addComponent(btnViewReports)
+                    .addComponent(btnViewInvoices)
+                    .addComponent(btnViewStockCategories)
+                    .addComponent(btnViewRefunds)
                     .addComponent(btnRegisterStaff)
-                    .addComponent(btnViewAllOrders))
+                    .addComponent(btnViewAllOrders)
+                    .addComponent(btnManageStock)
+                    .addComponent(btnManageUsers)
+                    .addComponent(btnManageHolidayBlocks))
                 .addContainerGap(183, Short.MAX_VALUE))
         );
         pnlDashboardLayout.setVerticalGroup(
@@ -138,9 +240,25 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(pnlDashboardLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnRegisterStaff)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnViewAllOrders)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnManageStock)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnManageUsers)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnManageHolidayBlocks)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnViewCustomerAddressChanges)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnViewReports)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnViewInvoices)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnViewStockCategories)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnViewRefunds)
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -162,7 +280,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(pnlBanner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(pnlDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 107, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -189,6 +307,41 @@ public class Dashboard extends javax.swing.JFrame {
         allOrders.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnViewAllOrdersActionPerformed
+
+    private void btnManageStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageStockActionPerformed
+        // TODO add your handling code here:
+        StockManagement stockManagement = new StockManagement(loadedUser,loadedBasket);
+        stockManagement.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManageStockActionPerformed
+
+    private void btnManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUsersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnManageUsersActionPerformed
+
+    private void btnManageHolidayBlocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageHolidayBlocksActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnManageHolidayBlocksActionPerformed
+
+    private void btnViewCustomerAddressChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewCustomerAddressChangesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewCustomerAddressChangesActionPerformed
+
+    private void btnViewReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewReportsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewReportsActionPerformed
+
+    private void btnViewInvoicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewInvoicesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewInvoicesActionPerformed
+
+    private void btnViewRefundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRefundsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewRefundsActionPerformed
+
+    private void btnViewStockCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewStockCategoriesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewStockCategoriesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,8 +380,16 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack1;
+    private javax.swing.JButton btnManageHolidayBlocks;
+    private javax.swing.JButton btnManageStock;
+    private javax.swing.JButton btnManageUsers;
     private javax.swing.JButton btnRegisterStaff;
     private javax.swing.JButton btnViewAllOrders;
+    private javax.swing.JButton btnViewCustomerAddressChanges;
+    private javax.swing.JButton btnViewInvoices;
+    private javax.swing.JButton btnViewRefunds;
+    private javax.swing.JButton btnViewReports;
+    private javax.swing.JButton btnViewStockCategories;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JPanel pnlBanner2;
     private javax.swing.JPanel pnlDashboard;

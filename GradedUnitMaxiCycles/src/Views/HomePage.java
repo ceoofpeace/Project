@@ -3,10 +3,18 @@ package Views;
 import Models.Magazine;
 import Models.MagazineManager;
 import Models.Order;
+import Models.ProductManager;
+import Models.ProductTag;
 import Models.User;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -54,15 +62,46 @@ public class HomePage extends javax.swing.JFrame {
         recentMagazine.setDateCreated(new Date(Long.MIN_VALUE));
         
         for (Map.Entry<Integer, Magazine> entry : magazines.entrySet()) {
-            if(entry.getValue().getDateCreated().after(recentMagazine.getDateCreated()))
-            {
+            if (entry.getValue().getDateCreated().after(recentMagazine.getDateCreated())) {
                 recentMagazine = entry.getValue();
             }
-            
+
         }
-        
+
         lblMagazineTitle.setText(recentMagazine.getTitle());
         txtMagazineContent.setText(recentMagazine.getContent().substring(0, 55) + "...");
+
+        ProductManager pManager = new ProductManager();
+        HashMap<Integer, ProductTag> productTags = pManager.LoadProductTags();
+        pnlCategories.setLayout(new BoxLayout(pnlCategories, BoxLayout.Y_AXIS));
+        for (Map.Entry<Integer, ProductTag> entry : productTags.entrySet()) {
+            ProductTag tag = entry.getValue();
+            
+            if (tag.getProductTagName().equals("Type")) {
+                JButton button = new JButton(tag.getTagValue());
+                button.setActionCommand(String.valueOf(tag.getProductTagId()));
+                pnlCategories.add(button);
+
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        List<Integer> ids = new ArrayList<>();
+                        ids.add(tag.getProductTagId());
+                        ChangePage(ids);
+                        
+                    }
+
+                });
+            }
+            
+
+        }
+    }
+    
+    public void ChangePage(List<Integer> ids)
+    {
+        Products product = new Products(loadedUser, loadedBasket, ids, "");
+        product.setVisible(true);
+        this.dispose();
     }
     
     public HomePage(User user, Order order) {
@@ -71,6 +110,8 @@ public class HomePage extends javax.swing.JFrame {
         loadedBasket = order;
         
         loadHomePage();
+        
+        
         
         
 
@@ -99,7 +140,8 @@ public class HomePage extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtMagazineContent = new javax.swing.JTextArea();
         btnReadFullMagazine = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrlPnlCategories = new javax.swing.JScrollPane();
+        pnlCategories = new javax.swing.JPanel();
         btnFAQ = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         Products = new javax.swing.JButton();
@@ -223,8 +265,22 @@ public class HomePage extends javax.swing.JFrame {
         btnReadFullMagazine.setText("Read Full Magazine");
         getContentPane().add(btnReadFullMagazine, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 241, -1, -1));
 
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 241, 184, 140));
+        scrlPnlCategories.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        javax.swing.GroupLayout pnlCategoriesLayout = new javax.swing.GroupLayout(pnlCategories);
+        pnlCategories.setLayout(pnlCategoriesLayout);
+        pnlCategoriesLayout.setHorizontalGroup(
+            pnlCategoriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 172, Short.MAX_VALUE)
+        );
+        pnlCategoriesLayout.setVerticalGroup(
+            pnlCategoriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 138, Short.MAX_VALUE)
+        );
+
+        scrlPnlCategories.setViewportView(pnlCategories);
+
+        getContentPane().add(scrlPnlCategories, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 241, 184, 140));
 
         btnFAQ.setText("FAQ");
         getContentPane().add(btnFAQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 110, -1, -1));
@@ -290,7 +346,7 @@ public class HomePage extends javax.swing.JFrame {
     private void ProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductsActionPerformed
         // TODO add your handling code here:
         
-        Products products = new Products(loadedUser, loadedBasket);
+        Products products = new Products(loadedUser, loadedBasket, new ArrayList(), "");
         products.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_ProductsActionPerformed
@@ -351,11 +407,12 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblMagazineTitle;
     private javax.swing.JLabel lblWelcomeText;
     private javax.swing.JPanel pnlBanner;
+    private javax.swing.JPanel pnlCategories;
+    private javax.swing.JScrollPane scrlPnlCategories;
     private javax.swing.JTextArea txtMagazineContent;
     // End of variables declaration//GEN-END:variables
 }

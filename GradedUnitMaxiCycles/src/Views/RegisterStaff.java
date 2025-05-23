@@ -179,8 +179,6 @@ public class RegisterStaff extends javax.swing.JFrame {
             }
         });
 
-        cmboRoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         lblDateEmployed.setText("Date Employed");
 
         txtDateEmployed.addActionListener(new java.awt.event.ActionListener() {

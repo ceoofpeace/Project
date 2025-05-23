@@ -8,12 +8,22 @@ import Models.Order;
 import Models.Product;
 import Models.ProductManager;
 import Models.User;
-import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -23,22 +33,74 @@ public class Products extends javax.swing.JFrame {
 
     Order loadedBasket;
     User loadedUser;
+    List<Integer> loadedTagIds;
+    String loadedSearchString;
     /**
      * Creates new form Products
      */
-    public Products(User user, Order order) {
+    public Products(User user, Order order,  List<Integer> tagIds, String searchString ) {
         initComponents();
         loadedBasket = order;
         loadedUser = user;
-        pnlProductList.setLayout(new GridLayout(0,1));
+        loadedUser = user;
+        loadedTagIds = tagIds;
+        pnlProductList.setLayout(new BoxLayout(pnlProductList, BoxLayout.Y_AXIS));
+
         
         ProductManager pManager = new ProductManager();
         HashMap<Integer, Product> products = pManager.LoadProducts();
-        System.out.println(products.size());
+
         for (Map.Entry<Integer, Product> entry : products.entrySet()) {
-            JButton button = new JButton(entry.getValue().getName());
+            
+            //creates jlabel for product icon
+            JLabel lblIcon = new JLabel();
+            //sets icon size
+            lblIcon.setSize(210,210);
+            //adds icon to product list panel
+            pnlProductList.add(lblIcon);
+            //creates jlabel for product name
+            JLabel lblName = new JLabel();
+            //sets lblname to produvct name
+            lblName.setText(entry.getValue().getName());
+            //creates new font using the font of lblname
+            Font nameFont = lblName.getFont();
+            //sets lblname font to bold and size 40
+            lblName.setFont(nameFont.deriveFont(Font.BOLD, (float) 40));
+            //adds lblname to product list panel
+            pnlProductList.add(lblName);
+            //creates label for product price
+            JLabel lblPrice = new JLabel();
+            //sets lblprice text to product price
+            lblPrice.setText("£" + String.valueOf(entry.getValue().getPrice()));
+            //creates new font use font of lblprice
+            Font priceFont = lblPrice.getFont();
+            //sets font of lblprice to have a font size of 25
+            lblPrice.setFont(priceFont.deriveFont((float) 25));
+            //adds lblprice to product list panel
+            pnlProductList.add(lblPrice);
+
+            try {
+                //gets image file from product
+                File imageFile = new File(entry.getValue().getImage());
+                //creates biffered image and sets it as the selected file
+                BufferedImage img = ImageIO.read(imageFile);
+                //scales image to label icon
+                Image scaledImg = img.getScaledInstance(lblIcon.getWidth(), lblIcon.getHeight(), Image.SCALE_SMOOTH);
+                
+                //sets label icon to image
+                lblIcon.setIcon(new ImageIcon(scaledImg));
+            } catch (Exception ex) {
+
+                
+                System.out.println("Unable to load product image:" + ex);
+                lblIcon.setBorder(new LineBorder(Color.black));
+            }
+            
+            JButton button = new JButton("View Product");
             button.setActionCommand(String.valueOf(entry.getValue().getProductId()) );
             pnlProductList.add(button);
+            
+            
             
             button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) 
@@ -58,7 +120,7 @@ public class Products extends javax.swing.JFrame {
     
     public void openProductDetails(Product product)
     {
-        ProductDetails productDetails = new ProductDetails(loadedUser, product, loadedBasket);
+        ProductDetails productDetails = new ProductDetails(loadedUser, product, loadedBasket, loadedTagIds, loadedSearchString);
         productDetails.setVisible(true);
         this.dispose();
     }
@@ -85,7 +147,7 @@ public class Products extends javax.swing.JFrame {
         sclPnlProductList.setToolTipText("");
         sclPnlProductList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        pnlProductList.setLayout(new java.awt.GridLayout());
+        pnlProductList.setLayout(new java.awt.GridLayout(1, 0));
         sclPnlProductList.setViewportView(pnlProductList);
 
         pnlBanner1.setBackground(new java.awt.Color(51, 204, 255));
@@ -119,7 +181,7 @@ public class Products extends javax.swing.JFrame {
                 .addComponent(btnViewBasket1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 338, Short.MAX_VALUE)
                 .addComponent(btnBack)
                 .addGap(39, 39, 39))
         );
@@ -138,21 +200,23 @@ public class Products extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(sclPnlProductList, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlBanner1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(sclPnlProductList, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(130, 130, 130))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlBanner1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pnlBanner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(sclPnlProductList, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sclPnlProductList, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

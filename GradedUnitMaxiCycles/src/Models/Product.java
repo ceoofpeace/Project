@@ -25,7 +25,6 @@ public class Product
     private String image;
     private String supplierId;
     private List<Integer> productTagIds;
-    private List<Integer> stockOrderIds;
     
 
     //getters
@@ -75,9 +74,7 @@ public class Product
     }
 
 
-    public List<Integer> getStockOrderIds() {
-        return stockOrderIds;
-    }
+
     
     //setters
 
@@ -126,16 +123,11 @@ public class Product
     }
 
 
-    public void setStockOrderIds(List<Integer> stockOrderIds) {
-        this.stockOrderIds = stockOrderIds;
-    }
+
     
     //adders
     
-    public void addStockOrderId(int id)
-    {
-        stockOrderIds.add(id);
-    }
+
     public void addProductTagId(int id)
     {
         productTagIds.add(id);
@@ -144,7 +136,7 @@ public class Product
     
     //constructors
 
-    public Product(int productId, String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds, List<Integer> stockOrderIds) {
+    public Product(int productId, String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds) {
         this.productId = productId;
         this.name = name;
         this.make = make;
@@ -156,10 +148,9 @@ public class Product
         this.image = image;
         this.supplierId = supplierId;
         this.productTagIds = productTagIds;
-        this.stockOrderIds = stockOrderIds;
     }
     
-    public Product(String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds, List<Integer> stockOrderIds) {
+    public Product(String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds) {
         this.productId = 0;
         this.name = name;
         this.make = make;
@@ -171,7 +162,6 @@ public class Product
         this.image = image;
         this.supplierId = supplierId;
         this.productTagIds = productTagIds;
-        this.stockOrderIds = stockOrderIds;
     }
     
     public Product() {
@@ -186,7 +176,6 @@ public class Product
         this.image = "";
         this.supplierId = "";
         this.productTagIds = new ArrayList();
-        this.stockOrderIds = new ArrayList();
     }
     
     

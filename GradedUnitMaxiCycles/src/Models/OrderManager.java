@@ -232,7 +232,7 @@ public class OrderManager
             return loadedOrders;
         }
     }
-    public void RegisterDelivery(Delivery delivery)
+    public Delivery RegisterDelivery(Delivery delivery)
     {
         
         try
@@ -258,10 +258,20 @@ public class OrderManager
             + "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(delivery.getPredictedDeliveryDate()) + "',"
             + delivery.getOrder().getOrderId()+ "," 
             + delivery.getAddress().getAddressId() + ")");
+            
+            ResultSet rs = statement.executeQuery("SELECT * FROM Deliveries ORDER BY AddressId DESC LIMIT 1");
+            
+            if(rs.next())
+            {
+                delivery.setDeliveryId(rs.getInt("DeliveryId"));
+            }
+            return delivery;
         }
         catch(Exception ex){
             System.out.println("Error Writing Delivery: " + ex.getMessage());
+            return null;
         }
+        
     }
     
     public Order RegisterOrder(Order order)

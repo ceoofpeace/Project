@@ -8,6 +8,7 @@ import Models.Order;
 import Models.OrderLine;
 import Models.Product;
 import Models.User;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,14 +21,18 @@ public class ProductDetails extends javax.swing.JFrame {
     Product loadedProduct;
     Order loadedBasket;
     User loadedUser;
+    List<Integer> loadedTagIds;
+    String loadedSearchString;
     /**
      * Creates new form ProductDetails
      */
-    public ProductDetails(User user, Product product, Order order) {
+    public ProductDetails(User user, Product product, Order order,  List<Integer> tagIds, String searchString) {
         initComponents();
         loadedBasket = order;
         loadedProduct = product;
         loadedUser = user;
+        loadedTagIds = tagIds;
+        loadedSearchString = searchString;
         //load product information
         txtDescription.setText(product.getDescription());
         lblProductName.setText(product.getName());
@@ -286,19 +291,11 @@ public class ProductDetails extends javax.swing.JFrame {
                 }
                 
                 JOptionPane.showMessageDialog(rootPane, quantity + " x " + loadedProduct.getName() + " Added to Basket");
-                Products products = new Products(loadedUser, loadedBasket);
+                Products products = new Products(loadedUser, loadedBasket, loadedTagIds, loadedSearchString);
                 products.setVisible(true);
                 this.dispose();
             }
-               
-               
-               
-               
-               
-               
-               
 
-        
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
@@ -320,7 +317,7 @@ public class ProductDetails extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        Products productsPage = new Products(loadedUser,loadedBasket);
+        Products productsPage = new Products(loadedUser,loadedBasket, loadedTagIds, loadedSearchString);
         productsPage.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed

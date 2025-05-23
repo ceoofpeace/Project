@@ -1,18 +1,30 @@
+
+
+package Views;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Views;
 
 import Models.Address;
-import Models.Delivery;
+import Models.Customer;
 import Models.Order;
-import Models.OrderLine;
 import Models.Product;
 import Models.ProductManager;
+import Models.StockOrder;
 import Models.User;
+import Models.UserManager;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +35,8 @@ public class StockManagement extends javax.swing.JFrame {
 
     User loadedUser;
     Order loadedBasket;
+    JFileChooser fileChooser;
+
     /**
      * Creates new form StockManager
      */
@@ -31,26 +45,25 @@ public class StockManagement extends javax.swing.JFrame {
         loadedBasket = order;
         loadedUser = user;
         ProductManager pManager = new ProductManager();
-        
-        HashMap<Integer,Product> products = pManager.LoadProducts();
-        
+        //loads products of database into hashmap
+        HashMap<Integer, Product> products = pManager.LoadProducts();
+        //gets product table model
         DefaultTableModel productTableModel = (DefaultTableModel) tblProducts.getModel();
+        //creates new jfile chooser
+        fileChooser = new JFileChooser();
         
         
-        for(Map.Entry<Integer, Product> entry : products.entrySet())
-        {
-            
+        //loops through every product in the hashmap
+        for (Map.Entry<Integer, Product> entry : products.entrySet()) {
+
             //gets product entry
             Product actualProduct = entry.getValue();
 
-
-            
-            
             //adds rows to table model
             productTableModel.addRow(new Object[]{
                 actualProduct.getProductId(),
                 actualProduct.getName(),
-                actualProduct.getDescription(   ),
+                actualProduct.getDescription(),
                 "Not Implemented",
                 "£" + actualProduct.getPrice(),
                 actualProduct.getQuantity(),
@@ -59,7 +72,54 @@ public class StockManagement extends javax.swing.JFrame {
                 "Not Implemented",
                 "Not Implemented",
                 "Not Implemented"
-                
+
+            });
+
+            //creates action listener for table item selection
+            tblProducts.getSelectionModel().addListSelectionListener(e -> {
+                if (!e.getValueIsAdjusting()) {
+                    //gets selected Row
+                    int selectedRow = tblProducts.getSelectedRow();
+                    //checks if row is not null
+                    if (selectedRow != -1) {
+                        UpdateProductFields();
+                    }
+                }
+            });
+            
+            
+            
+            
+        }
+        //sets stockOrders table model
+        tblProducts.setModel(productTableModel);
+        
+        //loads stockOrders of database into hashmap
+        HashMap<Integer,StockOrder> stockOrders = pManager.LoadStockOrders();
+        //gets stock table model
+        DefaultTableModel stockOrderTableModel = (DefaultTableModel) tblStockOrders.getModel();
+        
+        //loops through every product in the hashmap
+        for(Map.Entry<Integer, StockOrder> entry : stockOrders.entrySet())
+        {
+            
+            //gets StockOrder entry
+            StockOrder actualStockOrder = entry.getValue();
+
+
+            //gets stockorder address
+            Address address = actualStockOrder.getAddress();
+            //creates address string
+            String addressString = address.getStreet() + "\\n" + address.getTown() + "\\n" + address.getCity() + "\\n" + address.getCountry() + "\\n" + address.getPostCode();
+            //adds rows to table model
+            stockOrderTableModel.addRow(new Object[]{
+                //public StockOrder(int stockOrderId, boolean hasArrived, int stockOrderQuantity, Date dateOrdered, Product product , Address address)
+                actualStockOrder.getStockOrderId(),
+                actualStockOrder.getHasArrived(),
+                actualStockOrder.getStockOrderQuantity(),
+                actualStockOrder.getDateOrdered(),
+                actualStockOrder.getProduct().getName(),
+                addressString
                 
             });
             
@@ -67,8 +127,10 @@ public class StockManagement extends javax.swing.JFrame {
             
             
         }
+        //sets product table model
+        tblStockOrders.setModel(stockOrderTableModel);
         
-        tblProducts.setModel(productTableModel);
+        
     }
 
     /**
@@ -85,7 +147,7 @@ public class StockManagement extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProducts = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnDeleteProduct = new javax.swing.JButton();
         pnlMakeStockOrder = new javax.swing.JPanel();
         lblStockOrderQuantity = new javax.swing.JLabel();
         lblStreet = new javax.swing.JLabel();
@@ -115,7 +177,7 @@ public class StockManagement extends javax.swing.JFrame {
         txtOrderPostCode = new javax.swing.JTextField();
         btnEditORder = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblStockOrders = new javax.swing.JTable();
         btnCancelOrder = new javax.swing.JButton();
         pnlManageProduct = new javax.swing.JPanel();
         txtProductName = new javax.swing.JTextField();
@@ -123,20 +185,25 @@ public class StockManagement extends javax.swing.JFrame {
         lblProductDescription = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtProductDescription = new javax.swing.JTextArea();
-        txtImage = new javax.swing.JTextField();
-        lblBrand = new javax.swing.JLabel();
+        lblModel = new javax.swing.JLabel();
         lblImage = new javax.swing.JLabel();
         txtGender = new javax.swing.JTextField();
-        txtBrand = new javax.swing.JTextField();
+        txtModel = new javax.swing.JTextField();
         lblColour = new javax.swing.JLabel();
-        txtFrame = new javax.swing.JTextField();
+        txtSupplier = new javax.swing.JTextField();
         txtProductPrice = new javax.swing.JTextField();
         lblProductPrice = new javax.swing.JLabel();
         lblGender = new javax.swing.JLabel();
         txtColour = new javax.swing.JTextField();
-        lblFrame = new javax.swing.JLabel();
+        lblMake = new javax.swing.JLabel();
         btnEditProduct = new javax.swing.JButton();
         btnAddProduct = new javax.swing.JButton();
+        lblProductIcon = new javax.swing.JLabel();
+        btnUploadImage = new javax.swing.JButton();
+        lblSupplier = new javax.swing.JLabel();
+        txtMake = new javax.swing.JTextField();
+        lblProductQuantity = new javax.swing.JLabel();
+        txtProductQuantity = new javax.swing.JTextField();
         pnlManagerTags = new javax.swing.JPanel();
         btnViewTags = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -159,7 +226,7 @@ public class StockManagement extends javax.swing.JFrame {
         lblOfferQuantity = new javax.swing.JLabel();
         lblDiscount = new javax.swing.JLabel();
         txtOfferQuantity = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
+        txtDiscountQuantity = new javax.swing.JTextField();
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -178,10 +245,7 @@ public class StockManagement extends javax.swing.JFrame {
 
         tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ProductId", "ProductName", "ProductDescription", "Tags", "ProductPrice", "StockAmount", "Colour", "Gender", "Brand", "Frame", "Image", "Offers"
@@ -189,7 +253,12 @@ public class StockManagement extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblProducts);
 
-        jButton1.setText("Delete");
+        btnDeleteProduct.setText("Delete");
+        btnDeleteProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteProductActionPerformed(evt);
+            }
+        });
 
         lblStockOrderQuantity.setText("Quantity");
 
@@ -230,12 +299,9 @@ public class StockManagement extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlMakeStockOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlMakeStockOrderLayout.createSequentialGroup()
-                                .addGroup(pnlMakeStockOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(2, 2, 2))))
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btnOrderMoreStock))
                 .addContainerGap())
         );
@@ -285,18 +351,15 @@ public class StockManagement extends javax.swing.JFrame {
 
         btnEditORder.setText("Edit Order");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblStockOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Product Id", "Order Id", "Quantity", "Address"
+                "Order Id", "Has Arrived", "Quantity", "Date", "Product Id", "Address"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblStockOrders);
 
         btnCancelOrder.setText("Cancel Order");
 
@@ -307,31 +370,34 @@ public class StockManagement extends javax.swing.JFrame {
             .addGroup(pnlManageStockOrdersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelOrder)
-                    .addGroup(pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManageStockOrdersLayout.createSequentialGroup()
-                            .addComponent(lblOrderStreet)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtOrderStreet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManageStockOrdersLayout.createSequentialGroup()
-                            .addComponent(lblOrderQuantity)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
                     .addGroup(pnlManageStockOrdersLayout.createSequentialGroup()
                         .addGroup(pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblOrderTown)
-                            .addComponent(lblOrderCity)
-                            .addComponent(lblOrderCountry)
-                            .addComponent(lblOrderPostCode))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtOrderCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtOrderTown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtOrderCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtOrderPostCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnEditORder))
-                .addContainerGap(14, Short.MAX_VALUE))
+                            .addComponent(btnCancelOrder)
+                            .addGroup(pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManageStockOrdersLayout.createSequentialGroup()
+                                    .addComponent(lblOrderStreet)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtOrderStreet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManageStockOrdersLayout.createSequentialGroup()
+                                    .addComponent(lblOrderQuantity)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(pnlManageStockOrdersLayout.createSequentialGroup()
+                                .addGroup(pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblOrderTown)
+                                    .addComponent(lblOrderCity)
+                                    .addComponent(lblOrderCountry)
+                                    .addComponent(lblOrderPostCode))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtOrderCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtOrderTown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtOrderCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtOrderPostCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnEditORder))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlManageStockOrdersLayout.setVerticalGroup(
             pnlManageStockOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +445,7 @@ public class StockManagement extends javax.swing.JFrame {
         txtProductDescription.setWrapStyleWord(true);
         jScrollPane3.setViewportView(txtProductDescription);
 
-        lblBrand.setText("Brand");
+        lblModel.setText("Model");
 
         lblImage.setText("Image");
 
@@ -389,11 +455,34 @@ public class StockManagement extends javax.swing.JFrame {
 
         lblGender.setText("Gender");
 
-        lblFrame.setText("Frame");
+        lblMake.setText("Make");
 
         btnEditProduct.setText("Edit Product");
+        btnEditProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditProductActionPerformed(evt);
+            }
+        });
 
         btnAddProduct.setText("Add Product");
+        btnAddProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProductActionPerformed(evt);
+            }
+        });
+
+        lblProductIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btnUploadImage.setText("Upload Image");
+        btnUploadImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadImageActionPerformed(evt);
+            }
+        });
+
+        lblSupplier.setText("Supplier");
+
+        lblProductQuantity.setText("Quantity");
 
         javax.swing.GroupLayout pnlManageProductLayout = new javax.swing.GroupLayout(pnlManageProduct);
         pnlManageProduct.setLayout(pnlManageProductLayout);
@@ -413,18 +502,6 @@ public class StockManagement extends javax.swing.JFrame {
                                 .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(pnlManageProductLayout.createSequentialGroup()
-                                    .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblGender)
-                                        .addComponent(lblBrand)
-                                        .addComponent(lblFrame)
-                                        .addComponent(lblImage))
-                                    .addGap(45, 45, 45)
-                                    .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtFrame, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtBrand, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtGender)
-                                        .addComponent(txtImage)))
-                                .addGroup(pnlManageProductLayout.createSequentialGroup()
                                     .addComponent(lblColour)
                                     .addGap(47, 47, 47)
                                     .addComponent(txtColour))
@@ -432,11 +509,44 @@ public class StockManagement extends javax.swing.JFrame {
                                     .addComponent(lblProductPrice)
                                     .addGap(18, 18, 18)
                                     .addComponent(txtProductPrice))
-                                .addGroup(pnlManageProductLayout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlManageProductLayout.createSequentialGroup()
                                     .addComponent(btnEditProduct)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnAddProduct))))))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                                    .addComponent(btnAddProduct)
+                                    .addGap(8, 8, 8))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlManageProductLayout.createSequentialGroup()
+                                    .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblGender)
+                                        .addComponent(lblModel)
+                                        .addComponent(lblMake)
+                                        .addComponent(lblProductQuantity))
+                                    .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlManageProductLayout.createSequentialGroup()
+                                            .addGap(45, 45, 45)
+                                            .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtModel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(txtGender))
+                                            .addGap(8, 8, 8))
+                                        .addGroup(pnlManageProductLayout.createSequentialGroup()
+                                            .addGap(26, 26, 26)
+                                            .addComponent(txtMake))
+                                        .addGroup(pnlManageProductLayout.createSequentialGroup()
+                                            .addGap(26, 26, 26)
+                                            .addComponent(txtProductQuantity))))
+                                .addGroup(pnlManageProductLayout.createSequentialGroup()
+                                    .addGap(2, 2, 2)
+                                    .addComponent(lblSupplier)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtSupplier))))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlManageProductLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblImage)
+                .addGap(18, 18, 18)
+                .addComponent(lblProductIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUploadImage)
+                .addGap(21, 21, 21))
         );
         pnlManageProductLayout.setVerticalGroup(
             pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -463,21 +573,30 @@ public class StockManagement extends javax.swing.JFrame {
                     .addComponent(txtGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblBrand))
+                    .addComponent(txtModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblModel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFrame))
+                    .addComponent(lblMake)
+                    .addComponent(txtMake, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblImage))
+                    .addComponent(lblProductQuantity)
+                    .addComponent(txtProductQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnUploadImage, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblProductIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSupplier))
+                .addGap(29, 29, 29)
                 .addGroup(pnlManageProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditProduct)
                     .addComponent(btnAddProduct))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         btnViewTags.setText("View Tags");
@@ -596,7 +715,7 @@ public class StockManagement extends javax.swing.JFrame {
 
         txtOfferQuantity.setText("jTextField7");
 
-        jTextField8.setText("jTextField7");
+        txtDiscountQuantity.setText("jTextField7");
 
         javax.swing.GroupLayout pnlManageOffersLayout = new javax.swing.GroupLayout(pnlManageOffers);
         pnlManageOffers.setLayout(pnlManageOffersLayout);
@@ -626,7 +745,7 @@ public class StockManagement extends javax.swing.JFrame {
                             .addGroup(pnlManageOffersLayout.createSequentialGroup()
                                 .addComponent(lblDiscount)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtDiscountQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         pnlManageOffersLayout.setVerticalGroup(
@@ -643,7 +762,7 @@ public class StockManagement extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlManageOffersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDiscount)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDiscountQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(pnlManageOffersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddOffer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -657,54 +776,268 @@ public class StockManagement extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButton1)
+                .addComponent(btnDeleteProduct)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlManageStockOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnlMakeStockOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlMakeStockOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlManageStockOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlManageProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlManagerTags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnlManageOffers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 2, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlManageOffers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlManagerTags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlManageStockOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(pnlManageProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDeleteProduct)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlMakeStockOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pnlMakeStockOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 119, Short.MAX_VALUE)
-                                .addComponent(pnlManageStockOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(pnlManagerTags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlManageOffers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
+                        .addGap(3, 3, 3)
+                        .addComponent(pnlManageOffers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(pnlManageProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(12, 12, 12)
+                        .addComponent(pnlManagerTags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProductActionPerformed
+        // TODO add your handling code here:
+        ProductManager pManager = new ProductManager();
+        
+         int row = tblProducts.getSelectedRow();
+        
+        if(row == -1)
+        {
+            JOptionPane.showMessageDialog(rootPane, "No Item Selected");
+        }
+        
+        else
+        {
+            DefaultTableModel productTableModel = (DefaultTableModel) tblProducts.getModel();
+            pManager.DeleteProduct((int) tblProducts.getValueAt(row, 0));
+            productTableModel.removeRow(row);
+            tblProducts.setModel(productTableModel);
+        }
+    }//GEN-LAST:event_btnDeleteProductActionPerformed
+
+    private void btnUploadImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadImageActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+        //opens a file chooser dialog box 
+        int result = fileChooser.showOpenDialog(this);
+
+        //checks if result variable is approved 
+        if (result == JFileChooser.APPROVE_OPTION) {
+            //creates file using the selected file
+            File selectedFile = fileChooser.getSelectedFile();
+            try {
+                //creates biffered image and sets it as the selected file
+                BufferedImage img = ImageIO.read(selectedFile);
+                //scales image to label icon
+                Image scaledImg = img.getScaledInstance(lblProductIcon.getWidth(), lblProductIcon.getHeight(), Image.SCALE_SMOOTH);
+                
+                //sets label icon to image
+                lblProductIcon.setIcon(new ImageIcon(scaledImg));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Failed to load image.");
+            }
+        }
+        
+    }//GEN-LAST:event_btnUploadImageActionPerformed
+
+    private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
+        // TODO add your handling code here:
+        
+
+        
+        try {
+            //public Product( String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds)
+            String name = txtProductName.getText();
+            String make = txtMake.getText();
+            String model = txtModel.getText();
+            String description = txtProductDescription.getText();
+            String colour = txtColour.getText();
+            double price = Double.parseDouble(txtProductPrice.getText());
+            int quantity = Integer.parseInt(txtProductQuantity.getText());
+            String image = "";
+            String supplierId = txtSupplier.getText();
+            File selectedFile = fileChooser.getSelectedFile();
+            //check if all fields are not empty
+
+            if (name.equals("") || make.equals("") || model.equals("") || description.equals("") || colour.equals("") || price == Double.NaN  || supplierId.equals("")) {
+                //display complete all fields error message
+                JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
+            } else {
+                try {
+                    //creates buffered image and sets it as the selected file
+                    BufferedImage bufferedImage = ImageIO.read(selectedFile);
+
+                    String path = "data/images/" + selectedFile.getName() + ".png";
+                    //creates new file pointing to a path in the images folder
+                    File imageFile = new File("data/images/" + selectedFile.getName() + ".png");
+                    //writes new  input file into images folder
+                    ImageIO.write(bufferedImage, "png", imageFile);
+                    //sets image as relative image file path
+                    image = path;
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Failed to parse image.");
+                }
+                Product product = new Product(name, make, model, description, colour, price, quantity, image, supplierId, new ArrayList<>());
+
+                ProductManager pManager = new ProductManager();
+
+                pManager.CreateProduct(product);
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
+        }
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btnAddProductActionPerformed
+
+    private void btnEditProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProductActionPerformed
+        // TODO add your handling code here:
+        
+        ProductManager pManager = new ProductManager();
+        
+        
+        int row = tblProducts.getSelectedRow();
+        if(row == -1)
+        {
+            JOptionPane.showMessageDialog(rootPane, "No Item Selected");
+            return;
+        }
+       
+        
+         
+        try {
+
+            int ProductId = (int) tblProducts.getValueAt(row, 0);
+
+            //public Product( String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds)
+            //gets all input product variables
+            String name = txtProductName.getText();
+            String make = txtMake.getText();
+            String model = txtModel.getText();
+            String description = txtProductDescription.getText();
+            String colour = txtColour.getText();
+            double price = Double.parseDouble(txtProductPrice.getText());
+            int quantity = Integer.parseInt(txtProductQuantity.getText());
+            String image = "";
+            String supplierId = txtSupplier.getText();
+            File selectedFile = fileChooser.getSelectedFile();
+            //check if all fields are  empty
+            if (name.equals("") || make.equals("") || model.equals("") || description.equals("") || colour.equals("") || price == Double.NaN  || supplierId.equals("")) {
+                //display complete all fields error message
+                JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
+            } else {
+                try {
+                    //creates buffered image and sets it as the selected file
+                    BufferedImage bufferedImage = ImageIO.read(selectedFile);
+
+                    //creates new file pointing to a path in the images folder
+                    
+                    String path = "data/images/" + selectedFile.getName() + ".png";
+                    File imageFile = new File("data/images/" + selectedFile.getName() + ".png");
+                    //writes new  input file into images folder
+                    ImageIO.write(bufferedImage, "png", imageFile);
+                    //sets image as relative image file path
+                    image = path;
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Failed to parse image.");
+                }
+                Product product = new Product(ProductId, name, make, model, description, colour, price, quantity, image, supplierId, new ArrayList<>());
+
+                
+
+                pManager.UpdateProduct(product);
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
+        }
+        
+        
+    }//GEN-LAST:event_btnEditProductActionPerformed
+
+    
+    void UpdateProductFields()
+    {
+        ProductManager pManager = new ProductManager();
+        
+         int row = tblProducts.getSelectedRow();
+         int ProductId = (int) tblProducts.getValueAt(row, 0);
+         Product product = pManager.LoadProduct(ProductId);
+         
+         //public Product(int productId, String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds)
+         txtProductName.setText(product.getName());
+         txtMake.setText(product.getMake());
+         txtModel.setText(product.getModel());
+         txtProductDescription.setText(product.getDescription());
+         txtColour.setText(product.getColour());
+         txtProductPrice.setText(String.valueOf(product.getPrice()));
+         txtProductQuantity.setText(String.valueOf(product.getQuantity())) ;
+         
+         
+         //creates file using the selected file
+            File imageFile = new File(product.getImage());
+            try {
+                //creates biffered image and sets it as the selected file
+                BufferedImage img = ImageIO.read(imageFile);
+                //scales image to label icon
+                Image scaledImg = img.getScaledInstance(lblProductIcon.getWidth(), lblProductIcon.getHeight(), Image.SCALE_SMOOTH);
+                
+                //sets label icon to image
+                lblProductIcon.setIcon(new ImageIcon(scaledImg));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Failed to load image.");
+            }
+            
+            txtSupplier.setText(product.getSupplierId());
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -736,7 +1069,6 @@ public class StockManagement extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StockManagement().setVisible(true);
             }
         });
     }
@@ -746,6 +1078,7 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JTextField btnAddOffer;
     private javax.swing.JButton btnAddProduct;
     private javax.swing.JButton btnCancelOrder;
+    private javax.swing.JButton btnDeleteProduct;
     private javax.swing.JTextField btnDeleteTag;
     private javax.swing.JButton btnEditORder;
     private javax.swing.JTextField btnEditOffer;
@@ -753,9 +1086,9 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JTextField btnEditTag;
     private javax.swing.JButton btnOrderMoreStock;
     private javax.swing.JTextField btnRemoveOffer;
+    private javax.swing.JButton btnUploadImage;
     private javax.swing.JButton btnViewTags;
     private javax.swing.JCheckBox ckBoxIsScalable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar jProgressBar1;
@@ -765,7 +1098,6 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
@@ -774,15 +1106,14 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JLabel lblBrand;
     private javax.swing.JLabel lblCity;
     private javax.swing.JLabel lblColour;
     private javax.swing.JLabel lblCountry;
     private javax.swing.JLabel lblDiscount;
-    private javax.swing.JLabel lblFrame;
     private javax.swing.JLabel lblGender;
     private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel lblMake;
+    private javax.swing.JLabel lblModel;
     private javax.swing.JLabel lblOfferQuantity;
     private javax.swing.JLabel lblOffers;
     private javax.swing.JLabel lblOrderCity;
@@ -793,11 +1124,14 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JLabel lblOrderTown;
     private javax.swing.JLabel lblPostCode;
     private javax.swing.JLabel lblProductDescription;
+    private javax.swing.JLabel lblProductIcon;
     private javax.swing.JLabel lblProductName;
     private javax.swing.JLabel lblProductPrice;
+    private javax.swing.JLabel lblProductQuantity;
     private javax.swing.JTextField lblRemoveTag;
     private javax.swing.JLabel lblStockOrderQuantity;
     private javax.swing.JLabel lblStreet;
+    private javax.swing.JLabel lblSupplier;
     private javax.swing.JLabel lblTags;
     private javax.swing.JLabel lblTown;
     private javax.swing.JPanel pnlMakeStockOrder;
@@ -807,11 +1141,12 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JPanel pnlManagerTags;
     private javax.swing.JTable tblOffers;
     private javax.swing.JTable tblProducts;
-    private javax.swing.JTextField txtBrand;
+    private javax.swing.JTable tblStockOrders;
     private javax.swing.JTextField txtColour;
-    private javax.swing.JTextField txtFrame;
+    private javax.swing.JTextField txtDiscountQuantity;
     private javax.swing.JTextField txtGender;
-    private javax.swing.JTextField txtImage;
+    private javax.swing.JTextField txtMake;
+    private javax.swing.JTextField txtModel;
     private javax.swing.JTextField txtOfferQuantity;
     private javax.swing.JTextField txtOrderCity;
     private javax.swing.JTextField txtOrderCountry;
@@ -822,5 +1157,7 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JTextArea txtProductDescription;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtProductPrice;
+    private javax.swing.JTextField txtProductQuantity;
+    private javax.swing.JTextField txtSupplier;
     // End of variables declaration//GEN-END:variables
 }

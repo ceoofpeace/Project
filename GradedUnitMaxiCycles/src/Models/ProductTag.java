@@ -4,7 +4,8 @@
  */
 package Models;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,7 +16,8 @@ public class ProductTag
     private int productTagId;
     private String productTagName;
     private boolean isRanged;
-    private HashMap<Integer, Product> products;
+    private String tagValue;
+    private List<Integer> productIds;
 
     public int getProductTagId() {
         return productTagId;
@@ -28,12 +30,15 @@ public class ProductTag
     public String getProductTagName() {
         return productTagName;
     }
+    public String getTagValue() {
+        return tagValue;
+    }
 
     public void setProductTagName(String productTagName) {
         this.productTagName = productTagName;
     }
 
-    public boolean isIsRanged() {
+    public boolean getIsRanged() {
         return isRanged;
     }
 
@@ -41,26 +46,37 @@ public class ProductTag
         this.isRanged = isRanged;
     }
 
-    public HashMap<Integer, Product> getProducts() {
-        return products;
+    public List<Integer> getProductIds() {
+        return productIds;
     }
 
-    public void setProducts(HashMap<Integer, Product> products) {
-        this.products = products;
+    public void setProductIds(List<Integer> productIds) {
+        this.productIds = productIds;
+    }
+    
+    public void setTagValue(String tagValue) {
+        this.tagValue = tagValue;
+    }
+    
+    public void addProductId(int addProductId)
+    {
+        productIds.add(addProductId);
     }
 
-    public ProductTag(int productTagId, String productTagName, boolean isRanged, HashMap<Integer, Product> products) {
+    public ProductTag(int productTagId, String productTagName, boolean isRanged,String tagValue, List<Integer> productIds) {
         this.productTagId = productTagId;
         this.productTagName = productTagName;
         this.isRanged = isRanged;
-        this.products = products;
+        this.tagValue = tagValue;
+        this.productIds = productIds;
     }
 
-    public ProductTag(String productTagName, boolean isRanged, HashMap<Integer, Product> products) {
+    public ProductTag(String productTagName, boolean isRanged,String tagValue, List<Integer> productIds) {
         this.productTagId = 0;
         this.productTagName = productTagName;
         this.isRanged = isRanged;
-        this.products = products;
+        this.tagValue = tagValue;
+        this.productIds = productIds;
     }
 
     public ProductTag() 
@@ -68,7 +84,8 @@ public class ProductTag
         this.productTagId = 0;
         this.productTagName = "";
         this.isRanged = false;
-        this.products = new HashMap<Integer,Product>();
+        this.tagValue = "";
+        this.productIds = new ArrayList<>();
     }
     
     

@@ -56,6 +56,7 @@ public class Checkout extends javax.swing.JFrame {
         else 
         {
             btnEditDelivery.setVisible(false);
+            loadedDelivery = new Delivery();
         }
     }
 

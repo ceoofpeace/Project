@@ -4,12 +4,16 @@
  */
 package Views;
 
+import Models.Customer;
 import Models.Delivery;
+import Models.MessageManager;
 import Models.Order;
+import Models.OrderLine;
 import Models.OrderManager;
 import Models.Product;
 import Models.ProductManager;
 import Models.User;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,6 +37,17 @@ public class PaymentPage extends javax.swing.JFrame {
         lastFrame = lastBasketFrame;
         loadedProduct = product;
         loadedDelivery = delivery;
+        //check if user is a customer
+        if(user.getClass().getName().equals("models.Customer"))
+        {
+            //hide pay cash button
+            btnCashAmountPayed.setVisible(false);
+            if(((Customer) user).getCompanyName().equals(""))
+            {
+                btnSendInvoice.setVisible(false);
+            }
+        }
+        
     }
 
     /**
@@ -211,16 +226,64 @@ public class PaymentPage extends javax.swing.JFrame {
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
- 
-        OrderManager oManager = new OrderManager();
-        ProductManager pManager = new ProductManager();
+
+
+        try {
+            
+            String cardNumber = txtCardNumber.getText();
+            String nameOnCard = txtNameOnCard.getText();
+            String expiryDate = txtExpiryDate.getText();
+            String securityCode = txtSecurityCode.getText();
+            
+            if (cardNumber.equals("") || nameOnCard.equals("") || expiryDate.equals("") || securityCode.equals("") ) {
+                //display complete all fields error message
+                JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
+                return;
+            } 
+            
+            OrderManager oManager = new OrderManager();
+            ProductManager pManager = new ProductManager();
+
+            loadedDelivery = oManager.RegisterDelivery(loadedDelivery);
+            
+            pManager.UpdateStockLevel(loadedBasket.getOrderLines());
+            JOptionPane.showMessageDialog(rootPane, "Thank You For Your Purchase");
+            
+            MessageManager mManager = new MessageManager();
+            String email = "Thank you " + loadedUser.getFirstName() + " " + loadedUser.getSurname() + " for your purchase as maxiCycles \n Here Is a summary of your purchase: \n \n ";
+            
+            if(loadedDelivery.getAddress().getPostCode() != null)
+            {
+                email += "DeliveryId: " + loadedDelivery.getDeliveryId() + "\n";
+                email += "DeliveryType: " + loadedDelivery.getType() + "\n";
+                email += "Address: " + loadedDelivery.getAddress().getStreet() + "\n" + loadedDelivery.getAddress().getTown() + "\n" + loadedDelivery.getAddress().getCity()+ "\n" + loadedDelivery.getAddress().getCountry()+ "\n" + loadedDelivery.getAddress().getPostCode();
+            }
+            
+            email += "OrderId: " + loadedDelivery.getOrder().getOrderId();
+            
+            email += "order: \n";
+            
+            
+            
+            
+
+            for (Map.Entry<Integer, OrderLine> entry : loadedBasket.getOrderLines().entrySet()) {
+                OrderLine oL = entry.getValue();
+                
+                email += oL.getQuantity() + " X " + oL.getProduct().getName() + "  £" + oL.getProduct().getPrice() + "\n";
+                
+            }
+            
+            mManager.sendEmail(loadedUser.getEmailAddress(), "Purchase Confirmation", email);
+            HomePage homePage = new HomePage(loadedUser, null);
+            homePage.setVisible(true);
+            this.dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
+        }
         
-        oManager.RegisterDelivery(loadedDelivery);
-        pManager.UpdateStockLevel(loadedBasket.getOrderLines());
-        JOptionPane.showMessageDialog(rootPane, "Thank You For Your Purchase");
-        HomePage homePage = new HomePage(loadedUser, null);
-        homePage.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     /**

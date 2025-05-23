@@ -10,18 +10,14 @@ package Views;
  * @author lucal
  */
 
+import Models.MessageManager;
 import Models.Order;
 import Models.User;
 import Models.UserManager;
 import java.util.HashMap;
-import java.util.Properties;
+import java.util.Map;
 import java.util.Random;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import static javax.mail.Transport.send;
 import javax.swing.JOptionPane;
 
 
@@ -142,46 +138,33 @@ public class Login extends javax.swing.JFrame {
     private void btnForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotPasswordActionPerformed
         // TODO add your handling code here:
         
-        UserManager uManager = new UserManager();
-        HashMap<String,User> users = uManager.LoadUsers();
-        String email = JOptionPane.showInputDialog("Please Enter Your Email");
         
-        
-        // TODO add your handling code here:
-        String fromEmail = "joshuabh2021@googlemail.com";//studyviral2@gmail.com
-        String FromEmailPassword = "Joshua230805";//You email Password from you want to send email
-        String Subjects = "password reset code";
         Random random = new Random();
         int code = random.nextInt(10000);
+        UserManager uManager = new UserManager();
+        String email = JOptionPane.showInputDialog("Please Enter Your Email");
         
-        Properties properties = new Properties();
-        properties.put("mail.smtp.auth","true");
-        properties.put("mail.smtp.starttls.enable","true");
-        properties.put("mail.smtp.host","smtp.gmail.com");
-        properties.put("mail.smtp.port","587");
+        HashMap<String, User> users = uManager.LoadUsers();
         
-        Session session = Session.getInstance(properties,new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication(){
-                return new PasswordAuthentication(fromEmail, FromEmailPassword);
+        User userToChangePassword = null;
+        for (Map.Entry<String, User> entry : users.entrySet()) {
+            if(entry.getValue().getEmailAddress().equals(email)){
+                userToChangePassword = entry.getValue();
             }
-        });
-        
-        try{
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            message.setSubject(Subjects);
             
-            
-            message.setText("Your password reset code is: " + code);
-            Transport.send(message);
-            
-            
-            
-            
-        }catch(Exception ex){
-            System.out.println("Failed To Send Email"+ex);
         }
+        
+        if(userToChangePassword == null)
+        {
+            JOptionPane.showMessageDialog(rootPane, "this email is not recognized");
+            return;
+        }
+        
+        MessageManager mManager = new MessageManager();
+        
+        mManager.sendEmail(email, "MaxiCycles Password Reset Code", "here is your password reset code: " + code);
+        
+        
         
         try{
             
@@ -190,6 +173,12 @@ public class Login extends javax.swing.JFrame {
             if(inputCode == code)
             {
                 String newPassword = JOptionPane.showInputDialog("Please Enter Your New Password");
+                
+                uManager.ChangeUserPassword(userToChangePassword, newPassword);
+                JOptionPane.showMessageDialog(rootPane, "your password has been changed");
+                HomePage homePage = new HomePage();
+                homePage.setVisible(true);
+                this.dispose();
             }
             
         }catch(Exception ex){

@@ -75,7 +75,7 @@ public class UserManager
             Statement statement = conn.createStatement();
             
             //gets every User entry in the database
-            ResultSet rs = statement.executeQuery("SELECT * FROM Roles LEFT JOIN UserRoles ON UserRoles.RoleId = Roles.RoleId");
+            ResultSet rs = statement.executeQuery("SELECT * FROM Roles LEFT JOIN Users ON Users.RoleId = Roles.RoleId");
             
             //loops through each User entry
             while(rs.next())
@@ -313,7 +313,8 @@ public class UserManager
             + customer.getNumberOfFailedLoginAttempts() + "," 
             + "Null," 
             + "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "',"
-            + "'Customer')");
+            + "'Customer'," +
+            + customer.getRole().getRoleId() + ")");
             
             statement.executeUpdate("Insert INTO Customers"
             + "(UserName, PreferredPaymentMethod, PaymentDetails, PreferredDeliveryAddressId, CompanyName) Values("
@@ -342,13 +343,13 @@ public class UserManager
             
             
             
-            //public User(String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address)
+            //public User(String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role)
             
             //inserts new customer into database
             
             
             statement.executeUpdate("Insert INTO Users"
-            + "(UserName, Password, FirstName, surname, EmailAddress, PhoneNumber, AddressId, NumberOfFailedLoginAttempts, DateOfAccountLock, DateRegistered, Type) Values("
+            + "(UserName, Password, FirstName, surname, EmailAddress, PhoneNumber, AddressId, NumberOfFailedLoginAttempts, DateOfAccountLock, DateRegistered, Type, RoleId) Values("
             + "'" + staff.getUserName()+ "',"
             +"'" + staff.getPassword() + "',"
             +"'" + staff.getFirstName() + "',"
@@ -359,7 +360,9 @@ public class UserManager
             + staff.getNumberOfFailedLoginAttempts() + "," 
             + "Null," 
             + "'" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "',"
-            + "'Staff')");
+            + "'Staff'," + 
+            + staff.getRole().getRoleId() + ")");
+            
             
             statement.executeUpdate("Insert INTO Staff"
             + "(UserName, DateEmployed) Values("
@@ -496,6 +499,33 @@ public class UserManager
     public Address LoadAddress(int id)
     {
        return loadAddresses().get(id);
+    }
+    
+    public void ChangeUserPassword(User user, String password)
+    {
+        try
+        {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            Statement statement = conn.createStatement(); 
+            
+            
+            
+            //updates User in database
+            
+                statement.executeUpdate("UPDATE Users SET "     
+                + "Password = '" + password  + "'"
+
+                + " WHERE UserName  = '" + user.getUserName() + "'");
+            
+                
+            
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Error Updating User Password: " + ex.getMessage());
+           
+        }
     }
     
             
