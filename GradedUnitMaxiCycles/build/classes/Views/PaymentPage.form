@@ -33,37 +33,10 @@
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace min="34" pref="34" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblCardNumber" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNameOnCard" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblExpiryDate" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblSecurityCode" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="2" attributes="0">
-                          <Component id="txtSecurityCode" alignment="2" pref="181" max="32767" attributes="0"/>
-                          <Component id="txtExpiryDate" alignment="2" min="-2" pref="178" max="-2" attributes="0"/>
-                          <Component id="txtNameOnCard" alignment="2" max="32767" attributes="0"/>
-                          <Component id="txtCardNumber" alignment="2" min="-2" pref="178" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="15" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="btnSendInvoice" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnCashAmountPayed" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="checkBoxSavePaymentMethods" min="-2" max="-2" attributes="0"/>
-                          <Component id="checkBoxSavePaymentInformation" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-              </Group>
+              <Component id="btnSendInvoice" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <Component id="btnCashAmountPayed" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -71,31 +44,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="pnlBanner2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblCardNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCardNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblNameOnCard" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtNameOnCard" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblExpiryDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtExpiryDate" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblSecurityCode" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtSecurityCode" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="checkBoxSavePaymentInformation" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="checkBoxSavePaymentMethods" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblPrice" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSubmit" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -105,7 +54,7 @@
                   <Component id="btnSendInvoice" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCashAmountPayed" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="0" pref="39" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="48" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -173,44 +122,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblCardNumber">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Card Number"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtCardNumber">
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtNameOnCard">
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblNameOnCard">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Name On Card"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtExpiryDate">
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblExpiryDate">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ExpiryDate"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtSecurityCode">
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblSecurityCode">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Security Code"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="checkBoxSavePaymentInformation">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Save Payment Information"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="checkBoxSavePaymentMethods">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Save Payment Method"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="btnSubmit">
       <Properties>
         <Property name="text" type="java.lang.String" value="Submit"/>

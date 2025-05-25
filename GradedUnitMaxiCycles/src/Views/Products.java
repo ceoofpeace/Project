@@ -48,7 +48,7 @@ public class Products extends javax.swing.JFrame {
 
         
         ProductManager pManager = new ProductManager();
-        HashMap<Integer, Product> products = pManager.LoadProducts();
+        HashMap<Integer, Product> products = pManager.LoadProductsByTag(tagIds);
 
         for (Map.Entry<Integer, Product> entry : products.entrySet()) {
             

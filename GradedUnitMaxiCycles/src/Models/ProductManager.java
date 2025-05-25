@@ -295,16 +295,18 @@ public class ProductManager
             {
                 if(i == 0)
                 {
-                    searchQuery += " Where productProductTags = "  + tagIds.get(i);
+                    searchQuery += " Where ProductProductTags.ProductTagId = "  + tagIds.get(i);
                 }
                 else
                 {
-                    searchQuery += " AND productProductTags = "  + tagIds.get(i);
+                    searchQuery += " AND ProductProductTags.ProductTagId = "  + tagIds.get(i);
                 }
             }
             
+
+            
             //gets every Products and product Tags  entry in the database
-            ResultSet rs = statement.executeQuery("SELECT * FROM ProductProductTags LEFT JOIN Products ON Products.ProductTag.ProductId = Products.ProductId   ");
+            ResultSet rs = statement.executeQuery(searchQuery);
             
             //loops through each User entry
             while(rs.next())
@@ -312,35 +314,14 @@ public class ProductManager
                 
                 //gets product variables from database
                 int productId = rs.getInt("ProductId");   
-                String productName = rs.getString("ProductName");
-                String productMake = rs.getString("ProductMake");
-                String productModel = rs.getString("ProductModel");
-                String productDescription = rs.getString("ProductDescription");
-                String productColour = rs.getString("ProductColour");
-                double productPrice = rs.getDouble("ProductPrice");
-                int productQuantity = rs.getInt("ProductQuantity");
-                String image = rs.getString("Image");
-                String supplierId = rs.getString("SupplierId");
-                
-                int productTagId = rs.getInt("ProductTagId");
+
 
                 
-                if(loadedProducts.containsKey(productId))
+                if(!loadedProducts.containsKey(productId))
                 {
-                    Product ProductEntry = loadedProducts.get(productId);
-                    
-                    
-                    ProductEntry.addProductTagId(productTagId);
-                    loadedProducts.replace(ProductEntry.getProductId(), ProductEntry);
+                    loadedProducts.put(productId, LoadProduct(productId));
                 }
-                else
-                {
-                    //public Product(int productId, String name, String make, String model, String description, String colour, double price, int quantity, String image, String supplierId, List<Integer> productTagIds, HashMap<Integer)
-                    Product product = new Product(productId,productName,productMake,productModel,productDescription,productColour,productPrice,productQuantity,image,supplierId,new ArrayList());
-                    
-                    //HashMap.put(KEY,VALUE) -> adds to HashMap
-                    loadedProducts.put(productId,product);
-                }
+                
 
             }
             
@@ -349,7 +330,7 @@ public class ProductManager
         }
         catch(Exception ex){
             //outputs error message
-            System.out.println("Error loading Products: " + ex.getMessage());
+            System.out.println("Error loading Products by tag: " + ex.getMessage());
         }
         finally
         {

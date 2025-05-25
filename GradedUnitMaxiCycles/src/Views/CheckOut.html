@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+<head>
+  <title>Mock Checkout</title>
+</head>
+<body>
+  <h1>Simulated Payment Page</h1>
+  <p>Click below to simulate successful payment.</p>
+  <button onclick="finish()">Complete Payment</button>
+
+  <script>
+    function finish() {
+      fetch("http://localhost:8080/done", { method: "POST" })
+        .then(() => {
+          alert("Payment sent! You can close this tab.");
+          window.close();
+        })
+        .catch(err => console.error("Error sending to /done:", err));
+    }
+  </script>
+</body>
+</html>

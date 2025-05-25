@@ -317,6 +317,9 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUsersActionPerformed
         // TODO add your handling code here:
+        ManageUsers manageUsers = new ManageUsers();
+        manageUsers.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnManageUsersActionPerformed
 
     private void btnManageHolidayBlocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageHolidayBlocksActionPerformed

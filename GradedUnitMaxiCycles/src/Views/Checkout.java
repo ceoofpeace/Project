@@ -5,11 +5,16 @@
 package Views;
 
 import Models.Delivery;
+import Models.MessageManager;
 import Models.Order;
 import Models.OrderLine;
+import Models.OrderManager;
+import Models.PaymentManager;
 import Models.Product;
+import Models.ProductManager;
 import Models.User;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -257,10 +262,68 @@ public class Checkout extends javax.swing.JFrame {
 
     private void btnMakePaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakePaymentActionPerformed
         // TODO add your handling code here:
+        if(cmboPaymentType.getSelectedItem().toString().equals("Debit/Credit"))
+        {
+            //creates new paymentmanager
+            PaymentManager paymentManager = new PaymentManager();
+           //makes payment using order price as input. adds an additional 10 if the order is a delivery
+            boolean paymentSuccessful = paymentManager.TryMakePayment(loadedBasket.CalculateOrderTotal() + (loadedDelivery.getAddress().getPostCode().equals("") ? 0 : 10));
+            if(!paymentSuccessful){
+                JOptionPane.showMessageDialog(null, "Payment Uncsuccessful");
+                return;
+            }
+            //makes new order manager
+            OrderManager oManager = new OrderManager();
+            //makes new product manager
+            ProductManager pManager = new ProductManager();
+            
+            
+            //registers delivery and sets loadeddelivery to registered delivery
+            loadedDelivery = oManager.RegisterDelivery(loadedDelivery);
+            
+            //updates stock level using the  hashmap of orderlines of the basket as input
+            pManager.UpdateStockLevel(loadedBasket.getOrderLines());
+            //creates an option panel and displays a thank you message
+            JOptionPane.showMessageDialog(null, "Thank You For Your Purchase");
+            
+            //creates new message manager
+            MessageManager mManager = new MessageManager();
+            //sends a new email confirming the purchase
+            String email = "Thank you " + loadedUser.getFirstName() + " " + loadedUser.getSurname() + " for your purchase as maxiCycles \n Here Is a summary of your purchase: \n \n";
+            
+            //checks if the order has a postcode to detirmine if it is a delivery
+            if(!loadedDelivery.getAddress().getPostCode().equals(""))
+            {
+                //adds delivery information to the email
+                email += "DeliveryId: " + loadedDelivery.getDeliveryId() + "\n";
+                email += "DeliveryType: " + loadedDelivery.getType() + "\n";
+                email += "Address: " + loadedDelivery.getAddress().getStreet() + "\n" + loadedDelivery.getAddress().getTown() + "\n" + loadedDelivery.getAddress().getCity()+ "\n" + loadedDelivery.getAddress().getCountry()+ "\n" + loadedDelivery.getAddress().getPostCode() + "\n \n";
+            }
+            
+            //adds order information to the email
+            email += "OrderId: " + loadedDelivery.getOrder().getOrderId() +"\n";
+
+            //loops through orderlines and adds a summary for each in the email
+            for (Map.Entry<Integer, OrderLine> entry : loadedBasket.getOrderLines().entrySet()) {
+                OrderLine oL = entry.getValue();
+                
+                email += oL.getQuantity() + " X " + oL.getProduct().getName() + "  £" + oL.getProduct().getPrice() + "\n";
+                
+            }
+            //sends email
+            mManager.sendEmail(loadedUser.getEmailAddress(), "Purchase Confirmation", email);
+            
+            HomePage homePage = new HomePage(loadedUser, null);
+            homePage.setVisible(true);
+            this.dispose();
+        }
+        else
+        {
+            PaymentPage paymentPage = new PaymentPage(loadedUser, loadedBasket, previousBasketFrame, loadedProduct, loadedDelivery);
+            paymentPage.setVisible(true);
+            this.dispose();
+        }
         
-        PaymentPage paymentPage = new PaymentPage(loadedUser, loadedBasket, previousBasketFrame, loadedProduct, loadedDelivery);
-        paymentPage.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnMakePaymentActionPerformed
 
     /**

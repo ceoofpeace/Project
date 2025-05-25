@@ -10,6 +10,7 @@ import Models.MessageManager;
 import Models.Order;
 import Models.OrderLine;
 import Models.OrderManager;
+import Models.PaymentManager;
 import Models.Product;
 import Models.ProductManager;
 import Models.User;
@@ -62,16 +63,6 @@ public class PaymentPage extends javax.swing.JFrame {
         pnlBanner2 = new javax.swing.JPanel();
         lblPayment = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
-        lblCardNumber = new javax.swing.JLabel();
-        txtCardNumber = new javax.swing.JTextField();
-        txtNameOnCard = new javax.swing.JTextField();
-        lblNameOnCard = new javax.swing.JLabel();
-        txtExpiryDate = new javax.swing.JTextField();
-        lblExpiryDate = new javax.swing.JLabel();
-        txtSecurityCode = new javax.swing.JTextField();
-        lblSecurityCode = new javax.swing.JLabel();
-        checkBoxSavePaymentInformation = new javax.swing.JCheckBox();
-        checkBoxSavePaymentMethods = new javax.swing.JCheckBox();
         btnSubmit = new javax.swing.JButton();
         btnSendInvoice = new javax.swing.JButton();
         btnCashAmountPayed = new javax.swing.JButton();
@@ -115,18 +106,6 @@ public class PaymentPage extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        lblCardNumber.setText("Card Number");
-
-        lblNameOnCard.setText("Name On Card");
-
-        lblExpiryDate.setText("ExpiryDate");
-
-        lblSecurityCode.setText("Security Code");
-
-        checkBoxSavePaymentInformation.setText("Save Payment Information");
-
-        checkBoxSavePaymentMethods.setText("Save Payment Method");
-
         btnSubmit.setText("Submit");
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,56 +132,16 @@ public class PaymentPage extends javax.swing.JFrame {
                 .addGap(55, 55, 55))
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCardNumber)
-                            .addComponent(lblNameOnCard)
-                            .addComponent(lblExpiryDate)
-                            .addComponent(lblSecurityCode))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(txtSecurityCode, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                            .addComponent(txtExpiryDate, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNameOnCard)
-                            .addComponent(txtCardNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSendInvoice)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCashAmountPayed)
-                        .addGap(16, 16, 16))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkBoxSavePaymentMethods)
-                            .addComponent(checkBoxSavePaymentInformation))
-                        .addContainerGap())))
+                .addComponent(btnSendInvoice)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(btnCashAmountPayed)
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlBanner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCardNumber)
-                    .addComponent(txtCardNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNameOnCard)
-                    .addComponent(txtNameOnCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblExpiryDate)
-                    .addComponent(txtExpiryDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSecurityCode)
-                    .addComponent(txtSecurityCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(checkBoxSavePaymentInformation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkBoxSavePaymentMethods)
-                .addGap(16, 16, 16)
+                .addGap(189, 189, 189)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrice)
                     .addComponent(btnSubmit))
@@ -210,7 +149,7 @@ public class PaymentPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSendInvoice)
                     .addComponent(btnCashAmountPayed))
-                .addGap(0, 39, Short.MAX_VALUE))
+                .addGap(0, 48, Short.MAX_VALUE))
         );
 
         pack();
@@ -230,48 +169,13 @@ public class PaymentPage extends javax.swing.JFrame {
 
         try {
             
-            String cardNumber = txtCardNumber.getText();
-            String nameOnCard = txtNameOnCard.getText();
-            String expiryDate = txtExpiryDate.getText();
-            String securityCode = txtSecurityCode.getText();
             
-            if (cardNumber.equals("") || nameOnCard.equals("") || expiryDate.equals("") || securityCode.equals("") ) {
-                //display complete all fields error message
-                JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
-                return;
-            } 
             
-            OrderManager oManager = new OrderManager();
-            ProductManager pManager = new ProductManager();
-
-            loadedDelivery = oManager.RegisterDelivery(loadedDelivery);
             
-            pManager.UpdateStockLevel(loadedBasket.getOrderLines());
-            JOptionPane.showMessageDialog(rootPane, "Thank You For Your Purchase");
             
-            MessageManager mManager = new MessageManager();
-            String email = "Thank you " + loadedUser.getFirstName() + " " + loadedUser.getSurname() + " for your purchase as maxiCycles \n Here Is a summary of your purchase: \n \n";
             
-            if(!loadedDelivery.getAddress().getPostCode().equals(""))
-            {
-                email += "DeliveryId: " + loadedDelivery.getDeliveryId() + "\n";
-                email += "DeliveryType: " + loadedDelivery.getType() + "\n";
-                email += "Address: " + loadedDelivery.getAddress().getStreet() + "\n" + loadedDelivery.getAddress().getTown() + "\n" + loadedDelivery.getAddress().getCity()+ "\n" + loadedDelivery.getAddress().getCountry()+ "\n" + loadedDelivery.getAddress().getPostCode() + "\n \n";
-            }
             
-            email += "OrderId: " + loadedDelivery.getOrder().getOrderId() +"\n";
-
-            for (Map.Entry<Integer, OrderLine> entry : loadedBasket.getOrderLines().entrySet()) {
-                OrderLine oL = entry.getValue();
-                
-                email += oL.getQuantity() + " X " + oL.getProduct().getName() + "  £" + oL.getProduct().getPrice() + "\n";
-                
-            }
             
-            mManager.sendEmail(loadedUser.getEmailAddress(), "Purchase Confirmation", email);
-            HomePage homePage = new HomePage(loadedUser, null);
-            homePage.setVisible(true);
-            this.dispose();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
@@ -321,18 +225,8 @@ public class PaymentPage extends javax.swing.JFrame {
     private javax.swing.JButton btnCashAmountPayed;
     private javax.swing.JButton btnSendInvoice;
     private javax.swing.JButton btnSubmit;
-    private javax.swing.JCheckBox checkBoxSavePaymentInformation;
-    private javax.swing.JCheckBox checkBoxSavePaymentMethods;
-    private javax.swing.JLabel lblCardNumber;
-    private javax.swing.JLabel lblExpiryDate;
-    private javax.swing.JLabel lblNameOnCard;
     private javax.swing.JLabel lblPayment;
     private javax.swing.JLabel lblPrice;
-    private javax.swing.JLabel lblSecurityCode;
     private javax.swing.JPanel pnlBanner2;
-    private javax.swing.JTextField txtCardNumber;
-    private javax.swing.JTextField txtExpiryDate;
-    private javax.swing.JTextField txtNameOnCard;
-    private javax.swing.JTextField txtSecurityCode;
     // End of variables declaration//GEN-END:variables
 }
