@@ -1,6 +1,5 @@
 package Views;
 
-
 import Models.Customer;
 import Models.User;
 import Models.UserManager;
@@ -13,7 +12,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author lucal
@@ -329,7 +327,7 @@ public class Register extends javax.swing.JFrame {
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
-        
+
         UserManager uManager = new UserManager();
 
         try {
@@ -339,7 +337,7 @@ public class Register extends javax.swing.JFrame {
             String confirmPassword = txtConfirmPassword.getText();
             String firstName = txtFirstName.getText();
             String surname = txtSurname.getText();
-            String emailAddress = txtEmailAddress.getText();
+            String emailAddress = txtEmailAddress.getText().trim();
             String phoneNumber = txtPhoneNumber.getText();
 
             String street = txtStreet.getText();
@@ -347,67 +345,74 @@ public class Register extends javax.swing.JFrame {
             String city = txtCity.getText();
             String country = txtCountry.getText();
             String postCode = txtPostCode.getText();
+
             //check if all fields are not empty
             if (userName.equals("") || password.equals("") || confirmPassword.equals("") || firstName.equals("") || surname.equals("") || emailAddress.equals("") || phoneNumber.equals("") || street.equals("") || town.equals("") || city.equals("") || country.equals("") || postCode.equals("")) {
                 //display complete all fields error message
                 JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
-            } 
-            else {
-                //creates hashmap of users
-                //loads users into hashmap
-                HashMap<String, User> users = uManager.LoadUsers();
-
-                //check if input username matches with an existing user
-                if (users.containsKey(userName)) {
-                    //show user already exists error message
-                    JOptionPane.showMessageDialog(rootPane, "UserName Already Exists");
-                    //end method
-                    return;
-                }
-                //checks if password matches confirm password field
-                if (!password.equals(confirmPassword)) {
-                    //display password mismatch error message
-                    JOptionPane.showMessageDialog(rootPane, "Password Confirmation Does Not Match");
-                    //end method
-                    return;
-                }
-
-                //creates new address
-                // public Address(String street, String town, String city, String country, String postCode)
-                Address address = new Address(street, town, city, country, postCode);
-
-                //creates new customer
-                //public Customer( String userName,  String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered)
-                Customer customer = new Customer(userName, password, firstName, surname, emailAddress, phoneNumber, address);
-
-                //creates hashmap of addresses
-                //loads address from database into hashmap
-                HashMap<Integer, Address> addresses = uManager.loadAddresses();
-
-                //checks if address exists in the database
-                if (!uManager.IsAddressRegistered(address)) {
-                    address = uManager.RegisterAddress(address);
-                    customer.setAddress(address);
-                }
-
-                //registers customer
-                uManager.RegisterCustomer(customer);
-                JOptionPane.showMessageDialog(rootPane, "Registeration Successful");
-                HomePage homePage = new HomePage();
-                homePage.setVisible(true);
-                this.dispose();
-
+                return;
             }
+            //check if all fields are not empty
+            if (emailAddress.contains(" ") ) {
+                //display complete all fields error message
+                JOptionPane.showMessageDialog(rootPane, "Invalid Email");
+                return;
+            }
+
+            //creates hashmap of users
+            //loads users into hashmap
+            HashMap<String, User> users = uManager.LoadUsers();
+
+            //check if input username matches with an existing user
+            if (users.containsKey(userName)) {
+                //show user already exists error message
+                JOptionPane.showMessageDialog(rootPane, "UserName Already Exists");
+                //end method
+                return;
+            }
+            //checks if password matches confirm password field
+            if (!password.equals(confirmPassword)) {
+                //display password mismatch error message
+                JOptionPane.showMessageDialog(rootPane, "Password Confirmation Does Not Match");
+                //end method
+                return;
+            }
+
+            //creates new address
+            // public Address(String street, String town, String city, String country, String postCode)
+            Address address = new Address(street, town, city, country, postCode);
+
+            //creates new customer
+            //public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) {
+            Customer customer = new Customer(userName, password, firstName, surname, emailAddress, phoneNumber, address, uManager.LoadRole(1));
+
+            //creates hashmap of addresses
+            //loads address from database into hashmap
+            HashMap<Integer, Address> addresses = uManager.loadAddresses();
+
+            //checks if address exists in the database
+            if (!uManager.IsAddressRegistered(address)) {
+                address = uManager.RegisterAddress(address);
+                customer.setAddress(address);
+            }
+            else
+               {
+                   customer.setAddress(uManager.GetRegisteredAddress(address));
+               }
+
+            //registers customer
+            uManager.RegisterCustomer(customer);
+            JOptionPane.showMessageDialog(rootPane, "Registeration Successful");
+            HomePage homePage = new HomePage();
+            homePage.setVisible(true);
+            this.dispose();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
+            System.out.println(e);
         }
-        
-        
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void txtPostCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPostCodeActionPerformed

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -26,47 +26,76 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="524" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblUsername" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblLastName" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblEmailAddress" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStreet" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblTown" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCIty" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCountry" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblPostCode" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCompanyName" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblPassword" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblConfirmPassword" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDateEmployed" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtDateEmployed" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtConfirmPassword" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtPassword" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtCompanyName" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtPostCode" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtCountry" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtCity" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtTown" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtStreet" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtEmailAddress" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtLastName" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtFirstName" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="txtUsername" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnCreate" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
+                              <Component id="btnEdit" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="ckBoxIsStaffMember" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="ckBoxIsStaffMember" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="424" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="lblDateEmployed" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="txtDateEmployed" min="-2" pref="254" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="lblDateOfAccountLock" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="txtDateOfAccountLock" min="-2" pref="254" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="ckBoxAccountLocked" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblUsername" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblLastName" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblEmailAddress" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblStreet" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblTown" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCIty" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCountry" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblPostCode" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCompanyName" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblPreferredPaymentMethod" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblPhoneNumber" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblPassword" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblConfirmPassword" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txtCompanyName" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtPostCode" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtCountry" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtCity" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtTown" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtStreet" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtEmailAddress" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtLastName" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtFirstName" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtUsername" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtPreferredPaymentMethod" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtPhoneNumber" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtPassword" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                          <Component id="txtConfirmPassword" alignment="1" min="-2" pref="254" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="196" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="193" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -79,73 +108,105 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="275" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblUsername" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblLastName" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtLastName" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblEmailAddress" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtEmailAddress" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblPhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtPhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblStreet" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtStreet" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblTown" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtTown" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblCIty" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtCity" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblCountry" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtCountry" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="lblPostCode" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtPostCode" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="jScrollPane2" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblCompanyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCompanyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblPreferredPaymentMethod" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtPreferredPaymentMethod" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="txtPassword" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblPassword" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblLastName" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtLastName" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblEmailAddress" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtEmailAddress" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblStreet" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtStreet" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblTown" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtTown" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblCIty" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCity" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblCountry" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCountry" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblPostCode" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtPostCode" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblCompanyName" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCompanyName" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblConfirmPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtConfirmPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblConfirmPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="ckBoxIsStaffMember" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblDateEmployed" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtDateEmployed" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="36" max="32767" attributes="0"/>
+              <EmptySpace pref="7" max="32767" attributes="0"/>
+              <Component id="ckBoxAccountLocked" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="7" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtDateOfAccountLock" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblDateOfAccountLock" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnCreate" max="32767" attributes="0"/>
+                  <Component id="btnEdit" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -314,6 +375,95 @@
     <Component class="javax.swing.JLabel" name="lblDateEmployed">
       <Properties>
         <Property name="text" type="java.lang.String" value="Date Employed"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCreate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Create"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEdit">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Edit"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnDelete">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Delete"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tblRoles">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="2" rowCount="0">
+                <Column editable="true" title="RoleId" type="java.lang.Object"/>
+                <Column editable="true" title="Role Name" type="java.lang.Object"/>
+              </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JTextField" name="txtPreferredPaymentMethod">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPreferredPaymentMethod">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="PreferredPayment Method"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtPhoneNumber">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPhoneNumber">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="PhoneNumber"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="ckBoxAccountLocked">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Account Locked"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ckBoxAccountLockedActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtDateOfAccountLock">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDateOfAccountLockActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDateOfAccountLock">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Date Of Account Lock"/>
       </Properties>
     </Component>
   </SubComponents>

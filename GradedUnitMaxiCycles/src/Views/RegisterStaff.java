@@ -409,6 +409,10 @@ public class RegisterStaff extends javax.swing.JFrame {
                    address = uManager.RegisterAddress(address);
                    staff.setAddress(address);
                }
+               else
+               {
+                   staff.setAddress(uManager.GetRegisteredAddress(address));
+               }
 
                
                

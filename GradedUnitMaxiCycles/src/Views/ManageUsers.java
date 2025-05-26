@@ -6,16 +6,16 @@ package Views;
 
 import Models.Address;
 import Models.Customer;
+import Models.Order;
+import Models.Role;
 import Models.Staff;
 import Models.User;
 import Models.UserManager;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,12 +25,23 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageUsers extends javax.swing.JFrame {
 
+    User loadedUser;
+    Order loadedBasket;
     /**
      * Creates new form ManageUsers
      */
-    public ManageUsers() {
+    public ManageUsers(User user, Order order) {
+        
+        loadedBasket = order;
+        loadedUser = user;
         initComponents();
         
+        LoadTables();
+        
+    }
+    
+    void LoadTables()
+    {
         UserManager uManager = new UserManager();
         HashMap<String, User> users = uManager.LoadUsers();
         
@@ -53,8 +64,8 @@ public class ManageUsers extends javax.swing.JFrame {
                 actualUser.getEmailAddress(),
                 actualUser.getFirstName(),
                 actualUser.getSurname(),
-                actualUser.getRole().getRoleName(),
                (actualUser.getClass().getName().equals("Models.Customer") ? false : true),
+                actualUser.getRole().getRoleName(),
                 address.getStreet() + "\n" + address.getTown()+ "\n" + address.getCity()+"\n" +  address.getCountry()+ "\n" +  address.getPostCode()+ "\n",
                 
 
@@ -79,8 +90,25 @@ public class ManageUsers extends javax.swing.JFrame {
         //sets user table model
         tblUsers.setModel(userTableModel);
         
+        HashMap<Integer,Role> roles = uManager.loadRoles();
+        //gets model of roles table
+        DefaultTableModel roleTableModel = (DefaultTableModel) tblRoles.getModel();
+        for (Map.Entry<Integer, Role> entry : roles.entrySet()) {
+            Role role = entry.getValue();
+            
+            //adds rows to table model
+            roleTableModel.addRow(new Object[]{
+                role.getRoleId(),
+                role.getRoleName()
+                
+                
+
+            });
+            
+        }
+        
+        tblRoles.setModel(roleTableModel);
     }
-    
     void UpdateUserFields()
     {
         UserManager uManager = new UserManager();
@@ -101,15 +129,40 @@ public class ManageUsers extends javax.swing.JFrame {
          txtPostCode.setText(user.getAddress().getPostCode()) ;
          txtPassword.setText(user.getPassword()) ;
          txtConfirmPassword.setText(user.getPassword()) ;
+         txtPhoneNumber.setText(user.getPhoneNumber());
+         
+         //checks if user is a customer
          if(user.getClass().getName().equals("Models.Customer"))
          {
+             //sets company name
              txtCompanyName.setText(((Customer) user).getCompanyName()) ;
+             //sets is staff checkbox to false
              ckBoxIsStaffMember.setSelected(false);
+             txtPreferredPaymentMethod.setText(((Customer) user).getPreferredPaymentMethod());
+             txtDateEmployed.setVisible(false);
+             txtCompanyName.setVisible(true);
+             txtPreferredPaymentMethod.setVisible(true);
          }
          else
          {
+             //sets date employed
              txtDateEmployed.setText(String.valueOf(((Staff) user).getDateEmployed())) ;
+             //sets is staff checkbox to false
              ckBoxIsStaffMember.setSelected(true);
+             txtDateEmployed.setVisible(true);
+             txtCompanyName.setVisible(false);
+             txtPreferredPaymentMethod.setVisible(false);
+         }
+         
+         if(user.getDateOfAccountLock() != null)
+         {
+             txtDateOfAccountLock.setVisible(true);
+             txtDateOfAccountLock.setText(String.valueOf(user.getDateOfAccountLock()));
+         }
+         else
+         {
+             ckBoxAccountLocked.setSelected(false);
+             txtDateOfAccountLock.setVisible(false);
          }
          
          
@@ -153,6 +206,18 @@ public class ManageUsers extends javax.swing.JFrame {
         txtConfirmPassword = new javax.swing.JTextField();
         txtDateEmployed = new javax.swing.JTextField();
         lblDateEmployed = new javax.swing.JLabel();
+        btnCreate = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblRoles = new javax.swing.JTable();
+        txtPreferredPaymentMethod = new javax.swing.JTextField();
+        lblPreferredPaymentMethod = new javax.swing.JLabel();
+        txtPhoneNumber = new javax.swing.JTextField();
+        lblPhoneNumber = new javax.swing.JLabel();
+        ckBoxAccountLocked = new javax.swing.JCheckBox();
+        txtDateOfAccountLock = new javax.swing.JTextField();
+        lblDateOfAccountLock = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -199,6 +264,51 @@ public class ManageUsers extends javax.swing.JFrame {
 
         lblDateEmployed.setText("Date Employed");
 
+        btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
+
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete");
+
+        tblRoles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "RoleId", "Role Name"
+            }
+        ));
+        jScrollPane2.setViewportView(tblRoles);
+
+        lblPreferredPaymentMethod.setText("PreferredPayment Method");
+
+        lblPhoneNumber.setText("PhoneNumber");
+
+        ckBoxAccountLocked.setText("Account Locked");
+        ckBoxAccountLocked.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ckBoxAccountLockedActionPerformed(evt);
+            }
+        });
+
+        txtDateOfAccountLock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDateOfAccountLockActionPerformed(evt);
+            }
+        });
+
+        lblDateOfAccountLock.setText("Date Of Account Lock");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -206,43 +316,65 @@ public class ManageUsers extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUsername)
-                            .addComponent(lblFirstName)
-                            .addComponent(lblLastName)
-                            .addComponent(lblEmailAddress)
-                            .addComponent(lblStreet)
-                            .addComponent(lblTown)
-                            .addComponent(lblCIty)
-                            .addComponent(lblCountry)
-                            .addComponent(lblPostCode)
-                            .addComponent(lblCompanyName)
-                            .addComponent(lblPassword)
-                            .addComponent(lblConfirmPassword)
-                            .addComponent(lblDateEmployed))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDateEmployed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtConfirmPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCompanyName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPostCode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCountry, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTown, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtStreet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEmailAddress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLastName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFirstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCreate)
+                                .addGap(210, 210, 210)
+                                .addComponent(btnEdit))
+                            .addComponent(ckBoxIsStaffMember))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ckBoxIsStaffMember)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 424, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblDateEmployed)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtDateEmployed, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblDateOfAccountLock)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtDateOfAccountLock, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(ckBoxAccountLocked, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblUsername)
+                                            .addComponent(lblFirstName)
+                                            .addComponent(lblLastName)
+                                            .addComponent(lblEmailAddress)
+                                            .addComponent(lblStreet)
+                                            .addComponent(lblTown)
+                                            .addComponent(lblCIty)
+                                            .addComponent(lblCountry)
+                                            .addComponent(lblPostCode)
+                                            .addComponent(lblCompanyName)
+                                            .addComponent(lblPreferredPaymentMethod)
+                                            .addComponent(lblPhoneNumber)
+                                            .addComponent(lblPassword)
+                                            .addComponent(lblConfirmPassword))
+                                        .addGap(16, 16, 16)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtCompanyName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPostCode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCountry, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtTown, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtStreet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtEmailAddress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtLastName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtFirstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPreferredPaymentMethod, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPhoneNumber, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtConfirmPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -251,68 +383,394 @@ public class ManageUsers extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUsername)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblUsername)
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFirstName)
+                                    .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblLastName)
+                                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblEmailAddress)
+                                    .addComponent(txtEmailAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblPhoneNumber)
+                                    .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblStreet)
+                                    .addComponent(txtStreet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblTown)
+                                    .addComponent(txtTown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblCIty)
+                                    .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblCountry)
+                                    .addComponent(txtCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblPostCode)
+                                    .addComponent(txtPostCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCompanyName)
+                            .addComponent(txtCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPreferredPaymentMethod)
+                            .addComponent(txtPreferredPaymentMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnDelete))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFirstName)
-                    .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblLastName)
-                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmailAddress)
-                    .addComponent(txtEmailAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStreet)
-                    .addComponent(txtStreet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTown)
-                    .addComponent(txtTown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCIty)
-                    .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCountry)
-                    .addComponent(txtCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPostCode)
-                    .addComponent(txtPostCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCompanyName)
-                    .addComponent(txtCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPassword)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblConfirmPassword)
-                    .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblConfirmPassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ckBoxIsStaffMember)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDateEmployed)
                     .addComponent(txtDateEmployed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(ckBoxAccountLocked)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDateOfAccountLock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDateOfAccountLock))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCreate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        // TODO add your handling code here:
+        
+        UserManager uManager = new UserManager();
+        User userToEdit;
+        try
+        {
+            
+             //gets selected Row
+             int selectedRow = tblUsers.getSelectedRow();
+             if(selectedRow != -1)
+             {
+                 userToEdit = uManager.loadUser(tblUsers.getValueAt(selectedRow, 0).toString());
+             }  
+             else
+             {
+                 //display no selected user error messages
+                JOptionPane.showMessageDialog(rootPane, "Please Select a User");
+                return;
+             }
+            //public Staff(Date dateEmployed, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) 
+            String userName = txtUsername.getText();
+            String password = txtPassword.getText();
+            String firstName = txtFirstName.getText();
+            String surname = txtLastName.getText();
+            String emailAddress = txtEmailAddress.getText();
+            String phoneNumber = txtPhoneNumber.getText();
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateEmployed = (ckBoxIsStaffMember.isSelected() ?  formatter.parse(txtDateEmployed.getText())  : null);
+            String companyName = txtCompanyName.getText();
+            String preferredPaymentMethod = txtPreferredPaymentMethod.getText();
+            
+            
+            
+        
+            String street = txtStreet.getText();
+            String town = txtTown.getText();
+            String city = txtCity.getText();
+            String country = txtCountry.getText();
+            String postCode = txtPostCode.getText();
+            
+            Date dateOfAccountLock;
+            if(ckBoxAccountLocked.isSelected())
+            {
+                 dateOfAccountLock = formatter.parse(txtDateOfAccountLock.getText());
+            }
+            else
+            {
+                dateOfAccountLock = null;
+            }
+            //check if all fields are not empty
+            if(userName.equals("") || password.equals("")  || firstName.equals("") || surname.equals("") || emailAddress.equals("") || phoneNumber.equals("") || street.equals("") || town.equals("") || city.equals("") || country.equals("") || postCode.equals("")  )
+            {
+                //display complete all fields error message
+                JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
+            }
+            else
+            {
+                //creates hashmap of users
+                //loads users into hashmap
+               HashMap<String, User> users = uManager.LoadUsers();
+               
+               //check if input username matches with an existing user
+               if(users.containsKey(userName) && userName != userToEdit.getUserName())
+               {
+                   //show user already exists error message
+                   JOptionPane.showMessageDialog(rootPane, "UserName Already Exists");
+                   //end method
+                   return;
+               }
+
+               
+               //creates new address
+               // public Address(String street, String town, String city, String country, String postCode)
+               Address address = new Address(street, town, city, country, postCode);
+               
+               
+               if(ckBoxIsStaffMember.isSelected())
+               {
+                   Staff staffToEdit = (Staff) userToEdit;
+                   //creates new Staff
+                   // public Staff(Date dateEmployed, String username, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds) {
+                   Staff staff = new Staff(dateEmployed,userName, password, firstName, surname,emailAddress,phoneNumber, address, staffToEdit.getNumberOfFailedLoginAttempts() , dateOfAccountLock, staffToEdit.getDateRegistered(), uManager.LoadRole((int) tblRoles.getValueAt(tblRoles.getSelectedRow(),0)));
+                   userToEdit = staff;
+               }
+               else
+               {
+                   Customer customerToEdit = (Customer) userToEdit;
+                   //creates new Customer
+                   //public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) {
+                   Customer customer = new Customer(preferredPaymentMethod, customerToEdit.getPaymentDetails(),customerToEdit.getPreferredDeliveryAddress(), companyName, userName, password,firstName, surname, emailAddress, phoneNumber, address, customerToEdit.getNumberOfFailedLoginAttempts(), dateOfAccountLock , customerToEdit.getDateRegistered(), uManager.LoadRole((int) tblRoles.getValueAt(tblRoles.getSelectedRow(),0)));
+                   userToEdit = customer;
+               }
+               
+               
+               //creates hashmap of addresses
+               //loads address from database into hashmap
+               HashMap<Integer,Address> addresses = uManager.loadAddresses();
+               
+               //checks if address exists in the database
+               
+               if(!uManager.IsAddressRegistered(address))
+               {
+                   address = uManager.RegisterAddress(address);
+                   userToEdit.setAddress(address);
+               }
+               else
+               {
+                   userToEdit.setAddress(uManager.GetRegisteredAddress(address));
+               }
+
+               
+               
+                
+            
+               if(ckBoxIsStaffMember.isSelected())
+               {
+                   uManager.RegisterStaff((Staff) userToEdit);
+               }
+               else
+               {
+                   uManager.RegisterCustomer((Customer) userToEdit);
+               }
+               JOptionPane.showMessageDialog(rootPane, "Registeration Successful");
+
+               
+               
+               
+               
+               
+               
+               
+            }
+        
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnCreateActionPerformed
+
     private void ckBoxIsStaffMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckBoxIsStaffMemberActionPerformed
         // TODO add your handling code here:
+        
+        if(ckBoxIsStaffMember.isSelected()){
+            txtDateEmployed.setVisible(true);
+            txtCompanyName.setVisible(false);
+            txtPreferredPaymentMethod.setVisible(false);
+            txtDateEmployed.setVisible(true);
+        }
+        else{
+             txtDateEmployed.setVisible(false);
+            txtCompanyName.setVisible(true);
+            txtPreferredPaymentMethod.setVisible(true);
+            txtDateEmployed.setVisible(false);
+        }
+        
     }//GEN-LAST:event_ckBoxIsStaffMemberActionPerformed
+
+    private void ckBoxAccountLockedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckBoxAccountLockedActionPerformed
+        // TODO add your handling code here:
+        if(ckBoxAccountLocked.isSelected()){
+            txtDateOfAccountLock.setVisible(true);
+        }
+        else{
+             txtDateOfAccountLock.setVisible(false);
+        }
+    }//GEN-LAST:event_ckBoxAccountLockedActionPerformed
+
+    private void txtDateOfAccountLockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateOfAccountLockActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDateOfAccountLockActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        
+         UserManager uManager = new UserManager();
+        User userToEdit;
+        try
+        {
+            
+             //gets selected Row
+             int selectedRow = tblUsers.getSelectedRow();
+             if(selectedRow != -1)
+             {
+                 userToEdit = uManager.loadUser(tblUsers.getValueAt(selectedRow, 0).toString());
+             }  
+             else
+             {
+                 //display no selected user error messages
+                JOptionPane.showMessageDialog(null, "Please Select a User");
+                return;
+             }
+            //public Staff(Date dateEmployed, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) 
+            String userName = txtUsername.getText();
+            String password = txtPassword.getText();
+            String firstName = txtFirstName.getText();
+            String surname = txtLastName.getText();
+            String emailAddress = txtEmailAddress.getText();
+            String phoneNumber = txtPhoneNumber.getText();
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateEmployed = (ckBoxIsStaffMember.isSelected() ?  formatter.parse(txtDateEmployed.getText())  : null);
+            String companyName = txtCompanyName.getText();
+            String preferredPaymentMethod = txtPreferredPaymentMethod.getText();
+            
+            
+            if(!userToEdit.getUserName().equals(userName))
+            {
+                //display cannot edit username error emssage
+                JOptionPane.showMessageDialog(null, "Cannot Edit Username");
+                return;
+            }
+        
+            String street = txtStreet.getText();
+            String town = txtTown.getText();
+            String city = txtCity.getText();
+            String country = txtCountry.getText();
+            String postCode = txtPostCode.getText();
+            
+            Date dateOfAccountLock;
+            if(ckBoxAccountLocked.isSelected())
+            {
+                 dateOfAccountLock = formatter.parse(txtDateOfAccountLock.getText());
+            }
+            else
+            {
+                dateOfAccountLock = null;
+            }
+            //check if all fields are not empty
+            if(userName.equals("") || password.equals("")  || firstName.equals("") || surname.equals("") || emailAddress.equals("") || phoneNumber.equals("") || street.equals("") || town.equals("") || city.equals("") || country.equals("") || postCode.equals("")  )
+            {
+                //display complete all fields error message
+                JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
+            }
+            else
+            {
+                //creates hashmap of users
+                //loads users into hashmap
+               HashMap<String, User> users = uManager.LoadUsers();
+               
+               
+               
+               //creates new address
+               // public Address(String street, String town, String city, String country, String postCode)
+               Address address = new Address(street, town, city, country, postCode);
+               
+               
+               if(ckBoxIsStaffMember.isSelected())
+               {
+                   Staff staffToEdit = (Staff) userToEdit;
+                   //creates new Staff
+                   // public Staff(Date dateEmployed, String username, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, List<Integer> roleIds) {
+                   Staff staff = new Staff(dateEmployed,userName, password, firstName, surname,emailAddress,phoneNumber, address, staffToEdit.getNumberOfFailedLoginAttempts() , dateOfAccountLock, staffToEdit.getDateRegistered(), uManager.LoadRoleByName(tblRoles.getValueAt(tblRoles.getSelectedRow(),0).toString()));
+                   userToEdit = staff;
+               }
+               else
+               {
+                   Customer customerToEdit = (Customer) userToEdit;
+                   //creates new Customer
+                   //public Customer(String preferredPaymentMethod, String paymentDetails, Address preferredDeliveryAddress, String companyName, String userName, String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered, Role role) {
+                   Customer customer = new Customer(preferredPaymentMethod, customerToEdit.getPaymentDetails(),customerToEdit.getPreferredDeliveryAddress(), companyName, userName, password,firstName, surname, emailAddress, phoneNumber, address, customerToEdit.getNumberOfFailedLoginAttempts(), dateOfAccountLock , customerToEdit.getDateRegistered(), uManager.LoadRoleByName(tblRoles.getValueAt(tblRoles.getSelectedRow(),0).toString()));
+                   userToEdit = customer;
+               }
+               
+               
+               //creates hashmap of addresses
+               //loads address from database into hashmap
+               HashMap<Integer,Address> addresses = uManager.loadAddresses();
+               
+               //checks if address exists in the database
+               
+               if(!uManager.IsAddressRegistered(address))
+               {
+                   address = uManager.RegisterAddress(address);
+                   userToEdit.setAddress(address);
+               }
+               else
+               {
+                   userToEdit.setAddress(uManager.GetRegisteredAddress(address));
+               }
+
+               
+               
+                
+            
+               //registers customer
+               uManager.UpdateUser(userToEdit);
+               JOptionPane.showMessageDialog(rootPane, "User Edited Successfully");
+               UpdateUserFields();
+
+               
+               
+               
+               
+               
+               
+               
+            }
+        
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Please Enter Valid Information");
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,38 +802,50 @@ public class ManageUsers extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageUsers().setVisible(true);
+               
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JCheckBox ckBoxAccountLocked;
     private javax.swing.JCheckBox ckBoxIsStaffMember;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCIty;
     private javax.swing.JLabel lblCompanyName;
     private javax.swing.JLabel lblConfirmPassword;
     private javax.swing.JLabel lblCountry;
     private javax.swing.JLabel lblDateEmployed;
+    private javax.swing.JLabel lblDateOfAccountLock;
     private javax.swing.JLabel lblEmailAddress;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblLastName;
     private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblPhoneNumber;
     private javax.swing.JLabel lblPostCode;
+    private javax.swing.JLabel lblPreferredPaymentMethod;
     private javax.swing.JLabel lblStreet;
     private javax.swing.JLabel lblTown;
     private javax.swing.JLabel lblUsername;
+    private javax.swing.JTable tblRoles;
     private javax.swing.JTable tblUsers;
     private javax.swing.JTextField txtCity;
     private javax.swing.JTextField txtCompanyName;
     private javax.swing.JTextField txtConfirmPassword;
     private javax.swing.JTextField txtCountry;
     private javax.swing.JTextField txtDateEmployed;
+    private javax.swing.JTextField txtDateOfAccountLock;
     private javax.swing.JTextField txtEmailAddress;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtPhoneNumber;
     private javax.swing.JTextField txtPostCode;
+    private javax.swing.JTextField txtPreferredPaymentMethod;
     private javax.swing.JTextField txtStreet;
     private javax.swing.JTextField txtTown;
     private javax.swing.JTextField txtUsername;

@@ -302,7 +302,7 @@ public class UserManager
             
             
             statement.executeUpdate("Insert INTO Users"
-            + "(UserName, Password, FirstName, surname, EmailAddress, PhoneNumber, AddressId, NumberOfFailedLoginAttempts, DateOfAccountLock, DateRegistered, Type) Values("
+            + "(UserName, Password, FirstName, surname, EmailAddress, PhoneNumber, AddressId, NumberOfFailedLoginAttempts, DateOfAccountLock, DateRegistered, Type, RoleId) Values("
             + "'" + customer.getUserName()+ "',"
             +"'" + customer.getPassword() + "',"
             +"'" + customer.getFirstName() + "',"
@@ -526,6 +526,58 @@ public class UserManager
             System.out.println("Error Updating User Password: " + ex.getMessage());
            
         }
+    }
+    
+    public void DeleteUser(String username)
+    {
+        
+        try
+        {
+            User user = loadUser(username);
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            Statement statement = conn.createStatement();       
+            
+            if(user.getClass().getName().equals("Models.Customer"))
+            {
+                //deletes Customer from database
+                 statement.executeUpdate("DELETE FROM Customers "
+                    + "WHERE UserName = " + username);
+            }
+            else
+            {
+                //deletes Staff from database
+                 statement.executeUpdate("DELETE FROM Staff "
+                    + "WHERE UserName = " + username);
+            }
+            
+            
+            //deletes User from database
+                 statement.executeUpdate("DELETE FROM Users "
+                    + "WHERE UserName = " + username);
+            
+            
+        }
+        catch(Exception ex){
+            //outputs error message
+            System.out.println("Error deleting product: " + ex.getMessage());
+        }
+    }
+    
+    public Address GetRegisteredAddress(Address address)
+    {
+        
+        HashMap<Integer, Address> addresses = loadAddresses();
+         for (Map.Entry<Integer, Address> entry : addresses.entrySet()) {
+            Integer key = entry.getKey();
+            Address value = entry.getValue();
+            
+            if(value.getStreet().equals(address.getStreet()) && value.getTown().equals(address.getTown()) && value.getCity().equals(address.getCity()) && value.getPostCode().equals(address.getPostCode()) ){
+                return value;
+            }
+            
+        }
+         return null;
     }
     
             

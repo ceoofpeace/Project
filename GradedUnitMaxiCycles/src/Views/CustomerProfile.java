@@ -383,14 +383,7 @@ public class CustomerProfile extends javax.swing.JFrame {
             String paymentDetails = txtPaymentDetails.getText();
             
             //check if all fields are not empty
-            if(userName.equals("") || password.equals("")  || firstName.equals("") || surname.equals("") || emailAddress.equals("") || phoneNumber.equals("") || street.equals("") || town.equals("") || city.equals("") || country.equals("") || postCode.equals("") )
-            {
-                //display complete all fields error message
-                JOptionPane.showMessageDialog(rootPane, "Please Complete All Fields");
-            }
-            else
-            {
-                //creates hashmap of users
+            //creates hashmap of users
                 //loads users into hashmap
                HashMap<String, User> users = uManager.LoadUsers();
                
@@ -410,7 +403,7 @@ public class CustomerProfile extends javax.swing.JFrame {
                
                //creates new customer
                //public Customer( String userName,  String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, int numberOfFailedLoginAttempts, Date dateOfAccountLock, Date dateRegistered)
-               Customer customer = new Customer(userName, password, firstName, surname,emailAddress,phoneNumber, address);
+               Customer customer = new Customer(userName, password, firstName, surname,emailAddress,phoneNumber, address,  uManager.LoadRole(1));
                customer.setPaymentDetails(paymentDetails);
                
 
@@ -421,6 +414,10 @@ public class CustomerProfile extends javax.swing.JFrame {
                {
                    address = uManager.RegisterAddress(address);
                    customer.setAddress(address);
+               }
+               else
+               {
+                   customer.setAddress(uManager.GetRegisteredAddress(address));
                }
 
                
@@ -439,16 +436,6 @@ public class CustomerProfile extends javax.swing.JFrame {
                    JOptionPane.showMessageDialog(rootPane, "Information Updated Successfully ");
                    FillCustomerInformation(customer);
                }
-               
-
-               
-               
-               
-               
-               
-               
-               
-            }
         
         }
         catch(Exception e){
@@ -459,7 +446,6 @@ public class CustomerProfile extends javax.swing.JFrame {
     void ToggleTextFields()
     {
         txtEmail.setEditable(!txtEmail.isEditable());
-        txtUsername.setEditable(!txtUsername.isEditable());
         txtFirstName.setEditable(!txtFirstName.isEditable());
         txtLastName.setEditable(!txtLastName.isEditable());
         txtPassword.setEditable(!txtPassword.isEditable());

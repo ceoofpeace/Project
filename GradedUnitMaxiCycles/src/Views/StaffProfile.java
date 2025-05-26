@@ -378,14 +378,7 @@ public class StaffProfile extends javax.swing.JFrame {
                 //loads users into hashmap
                HashMap<String, User> users = uManager.LoadUsers();
                
-               //check if input username matches with an existing user
-               if(users.containsKey(userName) && !userName.equals(loadedStaff.getUserName()) )
-               {
-                   //show user already exists error message
-                   JOptionPane.showMessageDialog(rootPane, "UserName Already Exists");
-                   //end method
-                   return;
-               }
+              
                
                
                //creates new address
@@ -404,6 +397,10 @@ public class StaffProfile extends javax.swing.JFrame {
                {
                    address = uManager.RegisterAddress(address);
                    staff.setAddress(address);
+               }
+               else
+               {
+                   staff.setAddress(uManager.GetRegisteredAddress(address));
                }
 
                
@@ -442,7 +439,6 @@ public class StaffProfile extends javax.swing.JFrame {
     void ToggleTextFields()
     {
         txtEmail.setEditable(!txtEmail.isEditable());
-        txtUsername.setEditable(!txtUsername.isEditable());
         txtFirstName.setEditable(!txtFirstName.isEditable());
         txtLastName.setEditable(!txtLastName.isEditable());
         txtPassword.setEditable(!txtPassword.isEditable());

@@ -75,8 +75,8 @@ public class Customer extends User
         this.companyName = companyName;
     }
     
-    public Customer( String userName,  String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address) {
-        super(userName, password, firstName, surname, emailAddress, phoneNumber, address, 0, null, new Date(), new Role());
+    public Customer( String userName,  String password, String firstName, String surname, String emailAddress, String phoneNumber, Address address, Role role) {
+        super(userName, password, firstName, surname, emailAddress, phoneNumber, address, 0, null, new Date(), role);
         this.preferredPaymentMethod = "";
         this.paymentDetails = "";
         this.preferredDeliveryAddress = new Address();
