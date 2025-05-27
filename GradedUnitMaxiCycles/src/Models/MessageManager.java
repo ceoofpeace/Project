@@ -4,7 +4,6 @@
  */
 package Models;
 
-import static java.lang.classfile.Attributes.code;
 import java.util.HashMap;
 import java.util.Properties;
 import javax.mail.Message;
@@ -13,7 +12,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.swing.JOptionPane;
 
 /**
  *

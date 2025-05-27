@@ -580,5 +580,50 @@ public class UserManager
          return null;
     }
     
+    
+    public void DeleteRole(int roleId)
+    {
+        
+        try
+        {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            Statement statement = conn.createStatement();       
+            
+            //deletes Role from database
+                 statement.executeUpdate("DELETE FROM Roles "
+                    + "WHERE RoleId = " + roleId);
+            
+            
+        }
+        catch(Exception ex){
+            //outputs error message
+            System.out.println("Error deleting product: " + ex.getMessage());
+        }
+    }
+    
+    public void UpdateRole(Role role)
+    {
+        try
+        {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            Statement statement = conn.createStatement(); 
+            
+            
+            
+            //updates Role in database
+            //public Role(int roleId, String roleName, List<String> userIds)
+                statement.executeUpdate("UPDATE roles SET "
+                + "RoleName = '" + role.getRoleName()+ "',"         
+                + " WHERE RoleId  = '" + role.getRoleId()+ "'");
+
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Error Updating User: " + ex.getMessage());
+
+        }
+    }
             
 }

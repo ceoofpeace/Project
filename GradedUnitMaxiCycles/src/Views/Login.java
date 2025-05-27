@@ -50,7 +50,7 @@ public class Login extends javax.swing.JFrame {
         lblConfirmation = new javax.swing.JLabel();
         btnForgotPassword = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        psWrdPassword = new javax.swing.JPasswordField();
+        txtPsWrd = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -91,7 +91,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 178, -1, -1));
-        getContentPane().add(psWrdPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 74, 72, -1));
+        getContentPane().add(txtPsWrd, new org.netbeans.lib.awtextra.AbsoluteConstraints(159, 74, 72, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -104,7 +104,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         UserManager uManager = new UserManager();
         String username = lblUsername.getText();
-        String password = String.copyValueOf(psWrdPassword.getPassword()) ;
+        String password = String.valueOf(txtPsWrd.getPassword()) ;
         HashMap<String,User> users = uManager.LoadUsers();
         
         if(username.equals("") || password.equals(""))
@@ -244,6 +244,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel lblConfirmation;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JTextField lblUsername;
-    private javax.swing.JPasswordField psWrdPassword;
+    private javax.swing.JPasswordField txtPsWrd;
     // End of variables declaration//GEN-END:variables
 }
