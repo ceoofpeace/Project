@@ -362,22 +362,19 @@ public class ProductManager
                 
                 int ProductId = rs.getInt("ProductId");
                 
-                if(productTags.containsKey(productTagId))
-                {
-                    productTags.get(productTagId).addProductId(ProductId);
-                }
-                else
+                if(!productTags.containsKey(productTagId))
                 {
                     // public ProductTag(int productTagId, String productTagName, boolean isRanged,String tagValue, HashMap<Integer, Product> products)
                     ProductTag productTag = new ProductTag(productTagId, productTagName,isRanged,tagValue,new ArrayList<>());
                     
                     //HashMap.put(KEY,VALUE) -> adds to HashMap
                     productTags.put(productTagId, productTag);
-
                 }
+                
+                
+                productTags.get(productTagId).addProductId(ProductId);
 
                 
-                ;
 
             }
 
@@ -388,6 +385,62 @@ public class ProductManager
             System.out.println("Error loading ProductTags: " + ex.getMessage());
         } finally {
             return productTags;
+        }
+        
+    }
+    
+    public void AddProductTagToProduct(ProductTag tag, Product product)
+    {
+
+        try
+        {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            Statement statement = conn.createStatement(); 
+            
+            
+            
+            //inserts ProductTag product relationship into database
+            statement.executeUpdate("Insert INTO ProductProductTags"
+            + "( ProductId, ProductTagId) Values("
+            + product.getProductId()+ ","
+            + tag.getProductTagId()+ ")");
+            
+
+
+
+        }
+        catch(Exception ex){
+            System.out.println("Error Writing Customer: " + ex.getMessage());
+        }
+        
+    }
+    
+    public ProductTag LoadProductTag(int id)
+    {
+       return LoadProductTags().get(id);
+    }
+    
+    public void RemoveProductTagFromProduct(int tagId, int productId)
+    {
+
+        try
+        {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            Statement statement = conn.createStatement();       
+            
+            //deletes product product tag relationship from database
+            statement.executeUpdate("DELETE FROM ProductProductTags "
+                    + "WHERE ProductId = " + productId + " AND ProductTagId = " + tagId);
+            
+            
+
+
+
+        }
+        catch(Exception ex){
+            System.out.println("Error Writing Customer: " + ex.getMessage());
         }
         
     }

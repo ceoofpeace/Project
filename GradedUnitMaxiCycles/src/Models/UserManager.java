@@ -614,14 +614,45 @@ public class UserManager
             
             //updates Role in database
             //public Role(int roleId, String roleName, List<String> userIds)
-                statement.executeUpdate("UPDATE roles SET "
-                + "RoleName = '" + role.getRoleName()+ "',"         
+                statement.executeUpdate("UPDATE Roles SET "
+                + "RoleName = '" + role.getRoleName()+ "'"         
                 + " WHERE RoleId  = '" + role.getRoleId()+ "'");
 
         }
         catch(Exception ex)
         {
             System.out.println("Error Updating User: " + ex.getMessage());
+
+        }
+    }
+    
+    public void CreateRole(Role role)
+    {
+        try
+        {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(connectionString);
+            Statement statement = conn.createStatement(); 
+            
+            
+            
+            // public Role(int roleId, String roleName, List<String> userIds)
+            
+            //inserts new Role  into database
+            
+            
+            statement.executeUpdate("Insert INTO Roles"
+            + "(RoleId, RoleName) Values("     
+             + role.getRoleId() + ","
+ 
+            + "'" + role.getRoleName()+ "')");
+            
+            
+
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Error Registering Role: " + ex.getMessage());
 
         }
     }

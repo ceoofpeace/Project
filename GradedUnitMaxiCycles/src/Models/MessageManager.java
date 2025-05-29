@@ -43,7 +43,8 @@ public class MessageManager
             }
         });
         
-        try{
+        try
+        {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fromEmail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
@@ -52,6 +53,8 @@ public class MessageManager
             
             message.setText(body);
             Transport.send(message);
+            
+            
             
             
             
