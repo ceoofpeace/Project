@@ -828,10 +828,6 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jScrollPane5" min="-2" pref="244" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jButton2" min="-2" max="-2" attributes="0"/>
@@ -840,30 +836,41 @@
                                   <Component id="jLabel1" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lblRemoveTag" max="32767" attributes="0"/>
-                              <Component id="RemoveTag" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnEditTag" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="ckBoxIsScalable" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="RemoveTag" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblRemoveTag" min="-2" pref="95" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnDeleteTag" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnCreateTag" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="lblTags" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnViewProductTags" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnViewTags" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jScrollPane5" min="-2" pref="244" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          <Component id="ckBoxIsScalable" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnDeleteTag" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnEditTag" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="18" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -874,6 +881,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnViewTags" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblTags" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnViewProductTags" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane5" min="-2" pref="103" max="-2" attributes="0"/>
@@ -883,18 +891,25 @@
                       <Component id="RemoveTag" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblRemoveTag" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Component id="ckBoxIsScalable" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblRemoveTag" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnCreateTag" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnEditTag" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnDeleteTag" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="ckBoxIsScalable" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnDeleteTag" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnEditTag" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="46" max="32767" attributes="0"/>
+                  <EmptySpace pref="106" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -904,6 +919,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="View Tags"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewTagsActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane5">
           <AuxValues>
@@ -912,13 +930,14 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable4">
+            <Component class="javax.swing.JTable" name="tblProductTags">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="3" rowCount="0">
+                  <Table columnCount="4" rowCount="0">
                     <Column editable="true" title="Tag Id" type="java.lang.Object"/>
                     <Column editable="true" title="Tag Name" type="java.lang.Object"/>
                     <Column editable="true" title="Is Scalable" type="java.lang.Object"/>
+                    <Column editable="true" title="Value" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -938,6 +957,11 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                   </TableColumnModel>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -951,11 +975,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Add Tag"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="RemoveTag">
           <Properties>
             <Property name="text" type="java.lang.String" value="Remove Tag"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RemoveTagActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -969,20 +999,33 @@
             <Property name="text" type="java.lang.String" value="IsScalable"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="btnDeleteTag">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Delete Tag"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="btnEditTag">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Delete Tag"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="lblTags">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tags"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnCreateTag">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create Tag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnEditTag">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Edit Tag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnDeleteTag">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Delete Tag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnViewProductTags">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="View Product Tags"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewProductTagsActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

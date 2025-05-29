@@ -8,13 +8,12 @@ package Views;
  */
 
 import Models.Address;
-import Models.Customer;
 import Models.Order;
 import Models.Product;
 import Models.ProductManager;
+import Models.ProductTag;
 import Models.StockOrder;
 import Models.User;
-import Models.UserManager;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,6 +35,7 @@ public class StockManagement extends javax.swing.JFrame {
     User loadedUser;
     Order loadedBasket;
     JFileChooser fileChooser;
+            ProductManager pManager = new ProductManager();
 
     /**
      * Creates new form StockManager
@@ -44,13 +44,21 @@ public class StockManagement extends javax.swing.JFrame {
         initComponents();
         loadedBasket = order;
         loadedUser = user;
-        ProductManager pManager = new ProductManager();
         //loads products of database into hashmap
         HashMap<Integer, Product> products = pManager.LoadProducts();
         //gets product table model
+        
         DefaultTableModel productTableModel = (DefaultTableModel) tblProducts.getModel();
+        
         //creates new jfile chooser
+        
         fileChooser = new JFileChooser();
+        
+        LoadProductTagTable();
+        
+        
+        
+        
         
         
         //loops through every product in the hashmap
@@ -83,6 +91,7 @@ public class StockManagement extends javax.swing.JFrame {
                     //checks if row is not null
                     if (selectedRow != -1) {
                         UpdateProductFields();
+                        LoadProductTagTable((int) tblProducts.getValueAt( selectedRow, 0 ));
                     }
                 }
             });
@@ -131,6 +140,95 @@ public class StockManagement extends javax.swing.JFrame {
         tblStockOrders.setModel(stockOrderTableModel);
         
         
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public void LoadProductTagTable()
+    {
+        //loads productTags of database into hashmap
+        HashMap<Integer,ProductTag> productTags = pManager.LoadProductTags();
+        
+        //gets product tag table model
+        DefaultTableModel productTagTableModel = (DefaultTableModel) tblProductTags.getModel();
+        
+        
+        //resets table row count to 1
+        productTagTableModel.setRowCount(1);
+        
+        
+        //loops through every product tag in the hashmap
+        for(Map.Entry<Integer, ProductTag> entry : productTags.entrySet())
+        {
+            
+            //gets product tag entry
+            ProductTag actualProductTag = entry.getValue();
+
+
+   
+            //adds rows to table model
+            productTagTableModel.addRow(new Object[]{
+                //public ProductTag(int productTagId, String productTagName, boolean isRanged,String tagValue, List<Integer> productIds)
+                actualProductTag.getProductTagId(),
+                actualProductTag.getProductTagName(),
+                actualProductTag.getIsRanged(),
+                actualProductTag.getTagValue()
+                
+                
+            });
+            
+            
+            
+            
+        }
+        //sets product table model
+        tblProductTags.setModel(productTagTableModel);
+    }
+    
+    public void LoadProductTagTable(int id)
+    {
+        //loads productTags of database into hashmap
+        HashMap<Integer,ProductTag> productTags = pManager.LoadProductTags();
+        
+        //gets product tag table model
+        DefaultTableModel productTagTableModel = (DefaultTableModel) tblProductTags.getModel();
+        //resets table row count to 1
+        productTagTableModel.setRowCount(1);
+        //loops through every product tag in the hashmap
+        for(Map.Entry<Integer, ProductTag> entry : productTags.entrySet())
+        {
+            
+            //gets product tag entry
+            ProductTag actualProductTag = entry.getValue();
+            if(actualProductTag.getProductIds().contains(id)){
+                //adds rows to table model
+               productTagTableModel.addRow(new Object[]{
+                //public ProductTag(int productTagId, String productTagName, boolean isRanged,String tagValue, List<Integer> productIds)
+                actualProductTag.getProductTagId(),
+                actualProductTag.getProductTagName(),
+                actualProductTag.getIsRanged(),
+                actualProductTag.getTagValue()
+                
+                
+            });
+    
+            }
+
+
+   
+            
+            
+            
+            
+            
+        }
+        //sets product table model
+        tblProductTags.setModel(productTagTableModel);
     }
 
     /**
@@ -207,15 +305,17 @@ public class StockManagement extends javax.swing.JFrame {
         pnlManagerTags = new javax.swing.JPanel();
         btnViewTags = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblProductTags = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         RemoveTag = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         lblRemoveTag = new javax.swing.JTextField();
         ckBoxIsScalable = new javax.swing.JCheckBox();
-        btnDeleteTag = new javax.swing.JTextField();
-        btnEditTag = new javax.swing.JTextField();
         lblTags = new javax.swing.JLabel();
+        btnCreateTag = new javax.swing.JButton();
+        btnEditTag = new javax.swing.JButton();
+        btnDeleteTag = new javax.swing.JButton();
+        btnViewProductTags = new javax.swing.JButton();
         pnlManageOffers = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblOffers = new javax.swing.JTable();
@@ -471,7 +571,7 @@ public class StockManagement extends javax.swing.JFrame {
             }
         });
 
-        lblProductIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblProductIcon.setBorder(javax.swing.BorderFactory.createLineBorder(null));
 
         btnUploadImage.setText("Upload Image");
         btnUploadImage.addActionListener(new java.awt.event.ActionListener() {
@@ -600,33 +700,57 @@ public class StockManagement extends javax.swing.JFrame {
         );
 
         btnViewTags.setText("View Tags");
+        btnViewTags.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewTagsActionPerformed(evt);
+            }
+        });
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblProductTags.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Tag Id", "Tag Name", "Is Scalable"
+                "Tag Id", "Tag Name", "Is Scalable", "Value"
             }
         ));
-        jScrollPane5.setViewportView(jTable4);
-        if (jTable4.getColumnModel().getColumnCount() > 0) {
-            jTable4.getColumnModel().getColumn(2).setResizable(false);
+        jScrollPane5.setViewportView(tblProductTags);
+        if (tblProductTags.getColumnModel().getColumnCount() > 0) {
+            tblProductTags.getColumnModel().getColumn(2).setResizable(false);
         }
 
         jButton2.setText("Add Tag");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         RemoveTag.setText("Remove Tag");
+        RemoveTag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveTagActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("TagName");
 
         ckBoxIsScalable.setText("IsScalable");
 
+        lblTags.setText("Tags");
+
+        btnCreateTag.setText("Create Tag");
+
+        btnEditTag.setText("Edit Tag");
+
         btnDeleteTag.setText("Delete Tag");
 
-        btnEditTag.setText("Delete Tag");
-
-        lblTags.setText("Tags");
+        btnViewProductTags.setText("View Product Tags");
+        btnViewProductTags.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewProductTagsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlManagerTagsLayout = new javax.swing.GroupLayout(pnlManagerTags);
         pnlManagerTags.setLayout(pnlManagerTagsLayout);
@@ -635,32 +759,39 @@ public class StockManagement extends javax.swing.JFrame {
             .addGroup(pnlManagerTagsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManagerTagsLayout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnlManagerTagsLayout.createSequentialGroup()
                         .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton2)
                             .addGroup(pnlManagerTagsLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblRemoveTag)
-                            .addComponent(RemoveTag, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManagerTagsLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEditTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlManagerTagsLayout.createSequentialGroup()
-                                .addComponent(ckBoxIsScalable)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(RemoveTag))
+                            .addGroup(pnlManagerTagsLayout.createSequentialGroup()
+                                .addComponent(lblRemoveTag, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnDeleteTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnCreateTag))))
                     .addGroup(pnlManagerTagsLayout.createSequentialGroup()
                         .addComponent(lblTags)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnViewTags)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addComponent(btnViewProductTags)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnViewTags)
+                        .addGap(12, 12, 12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManagerTagsLayout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlManagerTagsLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(ckBoxIsScalable)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDeleteTag)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditTag)))
+                .addContainerGap())
         );
         pnlManagerTagsLayout.setVerticalGroup(
             pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -668,7 +799,8 @@ public class StockManagement extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnViewTags)
-                    .addComponent(lblTags))
+                    .addComponent(lblTags)
+                    .addComponent(btnViewProductTags))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -676,16 +808,20 @@ public class StockManagement extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(RemoveTag))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(lblRemoveTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ckBoxIsScalable)
-                    .addComponent(btnDeleteTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEditTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlManagerTagsLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(12, 12, 12)
+                        .addComponent(ckBoxIsScalable))
+                    .addGroup(pnlManagerTagsLayout.createSequentialGroup()
+                        .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblRemoveTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCreateTag))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlManagerTagsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnEditTag)
+                            .addComponent(btnDeleteTag))))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         tblOffers.setModel(new javax.swing.table.DefaultTableModel(
@@ -1002,6 +1138,85 @@ public class StockManagement extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnEditProductActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        ProductManager pManager = new ProductManager();
+        
+         int productRow = tblProducts.getSelectedRow();
+         int tagRow = tblProductTags.getSelectedRow();
+         
+        if(productRow == -1 || tagRow == -1)
+        {
+            JOptionPane.showMessageDialog(rootPane, "No Tag or Product Selected");
+        }
+        
+        else
+        {
+            Product product = pManager.LoadProduct((int) tblProducts.getValueAt(productRow, 0));
+            ProductTag tag = pManager.LoadProductTag((int) tblProductTags.getValueAt(tagRow, 0));
+            DefaultTableModel productTableModel = (DefaultTableModel) tblProducts.getModel();
+            pManager.AddProductTagToProduct(tag ,  product);
+            tblProducts.setModel(productTableModel);
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnViewTagsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTagsActionPerformed
+        // TODO add your handling code here:
+        
+        LoadProductTagTable();
+    }//GEN-LAST:event_btnViewTagsActionPerformed
+
+    private void RemoveTagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveTagActionPerformed
+        // TODO add your handling code here:
+        
+        int productRow = tblProducts.getSelectedRow();
+         int tagRow = tblProductTags.getSelectedRow();
+         
+        if(productRow == -1 || tagRow == -1)
+        {
+            JOptionPane.showMessageDialog(rootPane, "No Tag or Product Selected");
+        }
+        
+        else
+        {
+           Product product   = pManager.LoadProduct((int) tblProducts.getValueAt(productRow, 0));
+           ProductTag tag   = pManager.LoadProductTag((int) tblProductTags.getValueAt(tagRow, 0));
+            
+            if(tag.getProductIds().contains(product.getProductId()))
+            {
+                
+             pManager.RemoveProductTagFromProduct(product.getProductId() ,  (int) tblProductTags.getValueAt(tagRow, 0));
+             JOptionPane.showMessageDialog(null, "tag removed");
+
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "this product does not have the selected tag");
+            }
+            
+            
+            LoadProductTagTable((int) tblProducts.getValueAt(productRow, 0));
+        }
+    }//GEN-LAST:event_RemoveTagActionPerformed
+
+    private void btnViewProductTagsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewProductTagsActionPerformed
+        // TODO add your handling code here:
+        
+        int productRow = tblProducts.getSelectedRow();
+
+         
+        if(productRow == -1)
+        {
+            JOptionPane.showMessageDialog(rootPane, "No Product Selected");
+        }
+        else
+        {
+            LoadProductTagTable((int) tblProducts.getValueAt(productRow, 0));
+        }
+        
+    }//GEN-LAST:event_btnViewProductTagsActionPerformed
+
     
     void UpdateProductFields()
     {
@@ -1078,15 +1293,17 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JTextField btnAddOffer;
     private javax.swing.JButton btnAddProduct;
     private javax.swing.JButton btnCancelOrder;
+    private javax.swing.JButton btnCreateTag;
     private javax.swing.JButton btnDeleteProduct;
-    private javax.swing.JTextField btnDeleteTag;
+    private javax.swing.JButton btnDeleteTag;
     private javax.swing.JButton btnEditORder;
     private javax.swing.JTextField btnEditOffer;
     private javax.swing.JButton btnEditProduct;
-    private javax.swing.JTextField btnEditTag;
+    private javax.swing.JButton btnEditTag;
     private javax.swing.JButton btnOrderMoreStock;
     private javax.swing.JTextField btnRemoveOffer;
     private javax.swing.JButton btnUploadImage;
+    private javax.swing.JButton btnViewProductTags;
     private javax.swing.JButton btnViewTags;
     private javax.swing.JCheckBox ckBoxIsScalable;
     private javax.swing.JButton jButton2;
@@ -1099,7 +1316,6 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -1140,6 +1356,7 @@ public class StockManagement extends javax.swing.JFrame {
     private javax.swing.JPanel pnlManageStockOrders;
     private javax.swing.JPanel pnlManagerTags;
     private javax.swing.JTable tblOffers;
+    private javax.swing.JTable tblProductTags;
     private javax.swing.JTable tblProducts;
     private javax.swing.JTable tblStockOrders;
     private javax.swing.JTextField txtColour;
